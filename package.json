@@ -30,6 +30,7 @@
     "react-native": "~0.63.4",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "~1.10.2",
+    "react-native-picker": "^4.3.7",
     "react-native-popup-dialog": "^0.18.3",
     "react-native-progress": "^5.0.0",
     "react-native-reanimated": "~2.2.0",
@@ -48,6 +49,7 @@
     "react-spring": "^9.2.4",
     "react-zdog": "1.0.11",
     "three": "0.126",
+    "toggle-switch-react-native": "^3.2.0",
     "zdog": "1.1"
   },
   "devDependencies": {

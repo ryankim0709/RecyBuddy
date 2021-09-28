@@ -10,7 +10,8 @@ export default class InfoCard extends React.Component {
         var facts = this.props.facts
         console.log("Object: "+object)
         console.log("Facts: "+facts)
-        if(object == "--" || object == "") {
+        if(object == "--" || object == "" || object == null || !this.props.valid) {
+            console.log("NOPE")
             return(
                 <View style = {styles.container}>
                     

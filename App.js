@@ -8,7 +8,6 @@ import { NavigationContainer } from '@react-navigation/native'
 import DrawerNavigator from './navigation/drawerNavigator'
 import { registerRootComponent } from 'expo';
 import StackNavigator from './navigation/stackNavigator'
-import Modal from './modal'
 
 export default class App extends React.Component {
   render() {

@@ -45,11 +45,29 @@ export default function PhotoScan() {
   const [permissions, setPermissions] = React.useState(false);
   const [facts, setFacts] = React.useState([])
 
+  const [init, setInit] = React.useState(false);
+
+  if(!init) {
+    test = []
+    db.ref('/').on('value', data => {
+      console.log(data.val())
+      for(var fact in data.val()) {
+          console.log("NAME: "+fact)
+          db.ref(fact+"/").on('value', data2 => {
+              var useData = data2.val()
+
+              for(var fact2 in useData) {
+                  test = useData[fact2]
+                }
+            })
+          }
+        })
+      setInit(true)
+  }
+
   const classify = async () => {
     setFacts([])
-    console.log("HERE")
     var word = status.toLocaleLowerCase()
-    console.log("WORD: "+word)
     var facts = []
     db.ref(word+'/').on('value', data => {
       var useData = data.val()
@@ -116,7 +134,7 @@ export default function PhotoScan() {
           {status && <Text style={styles.text}>{status}</Text>}
           <Button onPress={takePictureAsync} title="Take a Picture" />
           <Button onPress={classify} title="Classify" />
-          <InfoCard object = {status} facts = {facts}/>
+          <InfoCard object = {status} facts = {facts} valid = {true}/>
         </>
       )}
       </ScrollView>

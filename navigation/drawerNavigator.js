@@ -7,8 +7,8 @@ import GameScreen from '../screens/gameScreen'
 import HomeScreen from '../screens/home'
 import ScanTabs from './bottomtabNavigator'
 import gameOptions from '../screens/gameOptions'
-import StackNavigator from './stackNavigator'
 import gameStart from '../screens/gameStart'
+import settings from '../screens/settings'
 
 
 const Drawer = createDrawerNavigator()
@@ -19,6 +19,7 @@ const DrawerNavigator = () => {
             <Drawer.Screen name = "Home" component = {HomeScreen}/>
             <Drawer.Screen name = "Scan" component = {ScanTabs}/>
             <Drawer.Screen name = "Game" component = {gameStart}/>
+            <Drawer.Screen name = "Settings" component = {settings}/> 
         </Drawer.Navigator>
     )
 }

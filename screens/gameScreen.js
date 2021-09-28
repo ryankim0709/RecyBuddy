@@ -2,34 +2,31 @@ import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Animated,
-  TouchableOpacity,
   Text,
   StyleSheet,
   PanResponder,
   Dimensions,
   Image,
-  Alert,
 } from 'react-native';
-import { Header } from 'react-native-elements'
 import * as Progress from 'react-native-progress'
 import db from '../config'
 import items from '../list';
 import itemName from '../itemName';
 
 const GameScreen = ({navigation, route}) => {
-  //how to randomize. Get input from database and push everything into an array
-  const pan = useState(new Animated.ValueXY())[0];
+  
+  const pan = useState(new Animated.ValueXY())[0]; 
+  //item names and answers
   const images = items;
   const answers = itemName;
-
+//num items to play with and type of game mode
   var numItems = route.params.num
   var type = route.params.type
 
-
-  var len = answers.length
-  var index1 = 0
-  var percent1 = 0
-  var corr = 0;
+  var len = answers.length //number of elements
+  var index1 = 0 //temp index
+  var percent1 = 0 //temp percent
+  var corr = 0; //temp 
   var incorr = 0;
   var seen = []
   var percentAdd = 1/numItems
@@ -44,13 +41,15 @@ const GameScreen = ({navigation, route}) => {
   const [percent, setPercent] = useState(0)
   const [time, setTime] = useState("")
 
+  //if go is challenge initialize clock
   const[go, setGo] = useState(type === "challenge")
   if(go === true) {
-    console.log("THIS IS A CHALLENGE")
+    setTime("Time: 0:0:0")
     setInterval(incrementOne,1000)
     setGo(false)
   }
 
+  //clock incrementation
   function incrementOne() {
     console.log("INCREMENTING")
     sec ++;
@@ -65,11 +64,12 @@ const GameScreen = ({navigation, route}) => {
       }
     }
 
-    var time = hour + ":" + min + ":" + sec;
+    var time = "Time: "+hour + ":" + min + ":" + sec;
     console.log("TIME: "+time)
     setTime(time)
   }
 
+  //return the answer for a given object
   function check(object) {
     var word = object
     var facts = []
@@ -82,31 +82,48 @@ const GameScreen = ({navigation, route}) => {
     return facts[0]
   }
 
+  //initialize game
   function initGame() {
     index1 = 0
     percent1 = 0
     corr = 0;
     incorr = 0;
     seen = []
+    sec = 0;
+    min = 0;
+    hour = 0;
 
    setCorrect(0)
     setIncorrect(0)
     setIndex(0)
     setPercent(0)
+    if(type === "challenge") {
+      setTime("0:0:0")
+    }
+    
+    clearInterval()
   }
 
+  //cleanup function
+  useEffect(() => {
+    return function cleanup() {
+      clearInterval()
+    }
+  })
+
+  //create panResponder
   const panResponder = useState(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: () => true,
-      onPanResponderGrant: () => {
+      onPanResponderGrant: () => { //move image
         pan.setOffset({ x: pan.x._value, y: pan.y._value });
       },
-      onPanResponderMove: (_, gesture) => {
+      onPanResponderMove: (_, gesture) => {//set image value
         pan.x.setValue(gesture.dx);
         pan.y.setValue(gesture.dy);
       },
-      onPanResponderRelease: async () => {
+      onPanResponderRelease: async () => {// on release
         var object = answers[index1]
         var answer = check(object)
         if (pan.y._value >= 180) {
@@ -114,31 +131,23 @@ const GameScreen = ({navigation, route}) => {
             if (answer == 'recyclable') {
               corr ++
               setCorrect(corr)
-              //Alert.alert('Correct!');
             } else {
-              //Alert.alert('Incorrect!');
               incorr ++;
               setIncorrect(incorr)
             }
           } else if (pan.x._value <= -81) {
-            //Alert.alert('In compost');
             if (answer == 'compostable') {
-              //Alert.alert('Correct!');
               corr ++
               setCorrect(corr)
             } else {
-              //Alert.alert('Incorrect!');
               incorr ++;
               setIncorrect(incorr)
             }
           } else {
-            //Alert.alert('In landfill');
             if (answer == 'landfill') {
-              //Alert.alert('Correct!');
               corr ++
               setCorrect(corr)
             } else {
-             //Alert.alert('Incorrect!');
              incorr ++;
               setIncorrect(incorr)
             }
@@ -156,7 +165,7 @@ const GameScreen = ({navigation, route}) => {
           setPercent(percent1)
 
           if(percent1 > percentAdd * (numItems - 1)) {
-            navigation.navigate("Summary Screen", {num: numItems})
+            navigation.navigate("Summary Screen", {num: numItems, type: type})
             initGame()
           }
 
@@ -207,7 +216,7 @@ const GameScreen = ({navigation, route}) => {
       />
 
       <Text>Correct: {correct} Incorrect: {incorrect}</Text>
-      <Text>TIME: {time}</Text>
+      <Text>{time}</Text>
 
       <View style={styles.binContainer}>
         <Image style={styles.bins} source={require('../photos/bins.png')} />

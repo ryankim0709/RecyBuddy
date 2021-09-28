@@ -15,7 +15,7 @@ export default class TextScan extends React.Component {
             cardObject:"--",
             cardFacts: [],
             clear: false,
-            initialized: false
+            initialized: false,
         }
     }
 
@@ -117,7 +117,7 @@ export default class TextScan extends React.Component {
                         </View>
                     </TouchableWithoutFeedback>
                     
-                    <InfoCard object = {this.state.cardObject} facts = {this.state.cardFacts}/>
+                    <InfoCard object = {this.state.cardObject} facts = {this.state.cardFacts} valid = {true}/>
                 </KeyboardAvoidingView>
                 </ScrollView>
                 
