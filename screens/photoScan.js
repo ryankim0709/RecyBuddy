@@ -1,6 +1,6 @@
 import * as ImagePicker from 'expo-image-picker';
 import React from 'react';
-import { Button, Image, StyleSheet, Text, View, Linking, Alert, ScrollView } from 'react-native';
+import { Button, Image, StyleSheet, Text, View, Linking, Alert, ScrollView, PERMISSIONS, } from 'react-native';
 import db from '../config'
 import InfoCard from '../infoCard';
 
@@ -42,17 +42,19 @@ export default function PhotoScan() {
 
   const [image, setImage] = React.useState(null);
   const [status, setStatus] = React.useState(null);
-  const [permissions, setPermissions] = React.useState(false);
+  //var result = cameraReady()
+  //console.log("RESULTS: "+result)
+  const [permissions, setPermissions] = React.useState(cameraReady());
+  //console.log("PERMISSION STATUS: "+(permissions))
   const [facts, setFacts] = React.useState([])
+  const [isReal, setIsReal] = React.useState(false)
 
   const [init, setInit] = React.useState(false);
 
   if(!init) {
     test = []
     db.ref('/').on('value', data => {
-      console.log(data.val())
       for(var fact in data.val()) {
-          console.log("NAME: "+fact)
           db.ref(fact+"/").on('value', data2 => {
               var useData = data2.val()
 
@@ -65,9 +67,21 @@ export default function PhotoScan() {
       setInit(true)
   }
 
+  async function cameraReady() {
+    let permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+    console.log(permissionResult)
+    permissionResult = permissionResult.granted === true
+    console.log("PERMISSION STATUS: "+permissionResult)
+    setPermissions(permissionResult)
+    return permissionResult
+  }
+
   const classify = async () => {
+    if(status != null) {
+      setIsReal(true)
     setFacts([])
-    var word = status.toLocaleLowerCase()
+    var word = status
+    word = word.toLocaleLowerCase()
     var facts = []
     db.ref(word+'/').on('value', data => {
       var useData = data.val()
@@ -76,6 +90,7 @@ export default function PhotoScan() {
       }
     })
     setFacts(facts)
+    }
   }
   
   const askPermissionsAsync = async () => {
@@ -99,10 +114,12 @@ export default function PhotoScan() {
       return;
     } else {
       setPermissions(true);
+      console.log("TRUE")
     }
   };
 
   const takePictureAsync = async () => {
+    setIsReal(false)
     const { cancelled, uri, base64 } = await ImagePicker.launchCameraAsync({
       base64: true,
     });
@@ -134,7 +151,7 @@ export default function PhotoScan() {
           {status && <Text style={styles.text}>{status}</Text>}
           <Button onPress={takePictureAsync} title="Take a Picture" />
           <Button onPress={classify} title="Classify" />
-          <InfoCard object = {status} facts = {facts} valid = {true}/>
+          <InfoCard object = {status} facts = {facts} valid = {isReal}/>
         </>
       )}
       </ScrollView>

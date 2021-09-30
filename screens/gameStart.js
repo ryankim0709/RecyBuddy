@@ -6,14 +6,9 @@ export default function gameStart({navigation}) {
 
         return(
             <View style  = {styles.contianer}>
-                 <TouchableOpacity style = {styles.gameButton} onPress = {() => {
-                    navigation.navigate("Options", {type: "challenge"})
-                }} >
-                    <Text style = {styles.gameText}>Challenge mode</Text>
-                </TouchableOpacity> 
 
                 <TouchableOpacity style = {styles.gameButton} onPress = {() => {
-                    navigation.navigate("Options", {type: "learn"})
+                    navigation.navigate("Options")
                 }} >
                     <Text style = {styles.gameText}>Learn mode</Text>
                 </TouchableOpacity> 

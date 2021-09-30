@@ -20,29 +20,4 @@ export default class App extends React.Component {
     )
   }
 }
-
-const TabNavigator = createBottomTabNavigator({
-  Scan:{screen:TextScan},
-  Home:{screen:HomeScreen}
-},
-{
-  defaultNavigationOptions: ({navigation}) => ({
-    tabBarIcon: () => {
-      const routeName = navigation.state.routeName
-
-      if(routeName == "Home") {
-        return(
-          <Image source = {require('./photos/house.jpg')} style = {{width:40, height:30}}/>
-        )
-      }
-      else if(routeName == "TextScan") {
-        return(
-          <Image source = {require('./photos/recycle.png')} style = {{width:40, height:30}}/>
-        )
-      }
-    }
-  })
-})
-
-const AppContainer = createAppContainer(TabNavigator)
 registerRootComponent(DrawerNavigator);

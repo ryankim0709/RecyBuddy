@@ -3,16 +3,15 @@ import {View, StyleSheet, Text, TouchableOpacity} from 'react-native'
 
 export default function SummaryScreen({navigation, route}) {
     var numItems = route.params.num
-    var type = route.params.type
-    console.log("Num Items: "+numItems)
+
     return(
         <View style = {styles.container}>
             <View style = {styles.navOptions}>
-                <TouchableOpacity style = {styles.playAgain} onPress = {() => {navigation.navigate("Options", {type: type})}}>
+                <TouchableOpacity style = {styles.playAgain} onPress = {() => {navigation.navigate("Options")}}>
                     <Text style = {styles.againText}>Play Again with different settings!</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style = {styles.playAgain} onPress = {() => {navigation.navigate("Game", {num: numItems, type: type})}}>
+                <TouchableOpacity style = {styles.playAgain} onPress = {() => {navigation.navigate("Game", {num: numItems})}}>
                     <Text style = {styles.againText}>Play Again with same settings!</Text>
                 </TouchableOpacity>
 

@@ -8,10 +8,7 @@ export default class InfoCard extends React.Component {
     render() {
         var object = this.props.object
         var facts = this.props.facts
-        console.log("Object: "+object)
-        console.log("Facts: "+facts)
         if(object == "--" || object == "" || object == null || !this.props.valid) {
-            console.log("NOPE")
             return(
                 <View style = {styles.container}>
                     
@@ -20,8 +17,6 @@ export default class InfoCard extends React.Component {
         }
 
         else {
-            //console.log("OBJECT: "+object)
-            
             if((typeof(facts[1]) === 'undefined')) {
                 return(
                     <View style = {styles.container}>
@@ -29,27 +24,32 @@ export default class InfoCard extends React.Component {
                     </View>
                 )
             }
-            var type = facts[1]
-            var learnMore = facts[0]
-            //console.log("type: "+type)
-            var path = require('./photos/qmark.jpg')
-            if(type == "compostable") {
-                path = require('./photos/compostSymbol.png')
-                
-            }
-            else if(type == "recyclable") {
-                path = require('./photos/recycleSymbol.jpg')
-            }
             
-            return(
-                <View style = {styles.container}>
-                    <Image source = {path} style = {styles.symbol}/>
-                    <Text style = {styles.learnText}>Your {this.props.object} is {this.props.facts[1]}</Text>
-                    <Text style = {styles.learnText}>Put your {this.props.object} in the </Text>
-                    <Text></Text>
-                    <Text style = {{fontSize:20}}></Text>
-                </View>
-            )
+            else {
+                var type = facts[1]
+                var learnMore = facts[0]
+                var message = "black bin"
+                var path = require('./photos/landfillBin.png')
+
+                if(type == "compostable") {
+                    path = require('./photos/compostBin.png')
+                    message = "green bin"
+                }
+                else if(type == "recyclable") {
+                    path = require('./photos/recycleBin.png')
+                    message = "blue bin"
+                }
+            
+                return(
+                    <View style = {styles.container}>
+                        <Image source = {path} style = {styles.symbol}/>
+                        <Text style = {styles.learnText}>Your {this.props.object.toLowerCase()} is {this.props.facts[1]}</Text>
+                        <Text style = {styles.learnText}>Put your {this.props.object} in the {message}</Text>
+                        <Text></Text>
+                        <Text style = {{fontSize:20}}></Text>
+                    </View>
+                )
+            }
 
         }
     }

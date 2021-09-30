@@ -14,14 +14,12 @@ import items from '../list';
 import itemName from '../itemName';
 
 const GameScreen = ({navigation, route}) => {
-  
   const pan = useState(new Animated.ValueXY())[0]; 
   //item names and answers
   const images = items;
   const answers = itemName;
 //num items to play with and type of game mode
   var numItems = route.params.num
-  var type = route.params.type
 
   var len = answers.length //number of elements
   var index1 = 0 //temp index
@@ -37,37 +35,8 @@ const GameScreen = ({navigation, route}) => {
 
   const [correct, setCorrect] = useState(0)
   const [incorrect, setIncorrect] = useState(0)
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(Math.floor(Math.random()*100) % len);
   const [percent, setPercent] = useState(0)
-  const [time, setTime] = useState("")
-
-  //if go is challenge initialize clock
-  const[go, setGo] = useState(type === "challenge")
-  if(go === true) {
-    setTime("Time: 0:0:0")
-    setInterval(incrementOne,1000)
-    setGo(false)
-  }
-
-  //clock incrementation
-  function incrementOne() {
-    console.log("INCREMENTING")
-    sec ++;
-    if(sec === 60) {
-      console.log("HERE")
-      sec = 0;
-      min ++;
-
-      if(min === 60) {
-        min = 0;
-        hour ++;
-      }
-    }
-
-    var time = "Time: "+hour + ":" + min + ":" + sec;
-    console.log("TIME: "+time)
-    setTime(time)
-  }
 
   //return the answer for a given object
   function check(object) {
@@ -84,6 +53,7 @@ const GameScreen = ({navigation, route}) => {
 
   //initialize game
   function initGame() {
+    console.log("GAME INIT HERE")
     index1 = 0
     percent1 = 0
     corr = 0;
@@ -95,21 +65,8 @@ const GameScreen = ({navigation, route}) => {
 
    setCorrect(0)
     setIncorrect(0)
-    setIndex(0)
     setPercent(0)
-    if(type === "challenge") {
-      setTime("0:0:0")
-    }
-    
-    clearInterval()
   }
-
-  //cleanup function
-  useEffect(() => {
-    return function cleanup() {
-      clearInterval()
-    }
-  })
 
   //create panResponder
   const panResponder = useState(
@@ -163,9 +120,9 @@ const GameScreen = ({navigation, route}) => {
 
           percent1 = percent1+percentAdd
           setPercent(percent1)
-
+          //console.log("PERCENT: "+percent1)
           if(percent1 > percentAdd * (numItems - 1)) {
-            navigation.navigate("Summary Screen", {num: numItems, type: type})
+            navigation.navigate("Summary Screen", {num: numItems})
             initGame()
           }
 
@@ -216,7 +173,6 @@ const GameScreen = ({navigation, route}) => {
       />
 
       <Text>Correct: {correct} Incorrect: {incorrect}</Text>
-      <Text>{time}</Text>
 
       <View style={styles.binContainer}>
         <Image style={styles.bins} source={require('../photos/bins.png')} />

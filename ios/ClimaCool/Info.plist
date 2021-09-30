@@ -71,5 +71,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSMicrophoneUsageDescription</key> <!--microphone permissions-->
+  	<string>Microphone is needed in able to listen to your words</string>
+	<key>NSSpeechRecognitionUsageDescription</key> <!--Speech recognition permissions-->
+  	<string>Speech recognition is required to understand your words</string>
 </dict>
 </plist>

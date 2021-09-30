@@ -7,7 +7,7 @@ export default function gameOptions({navigation, route}) {
     const[times, setTimes] = useState(10)
     const [selected, setSelected] = useState(0);
     const choices = [1,5,10,15]
-    var type = route.params.type
+
     return(
         <View style = {styles.container}>
             <View>
@@ -23,10 +23,9 @@ export default function gameOptions({navigation, route}) {
             </View>
 
             <TouchableOpacity  style = {styles.navigateButton} onPress = {() => {
-                console.log("asdf")
-                navigation.navigate("Game", {num: choices[selected], type: type})
+                navigation.navigate("Game", {num: choices[selected]})
                 }}>
-                <Text style = {styles.navigateText}>Play {type} game with {choices[selected]} items</Text>
+                <Text style = {styles.navigateText}>Play game with {choices[selected]} items</Text>
             </TouchableOpacity>
         </View>
         
