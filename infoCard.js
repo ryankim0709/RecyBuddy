@@ -8,7 +8,8 @@ export default class InfoCard extends React.Component {
     render() {
         var object = this.props.object
         var facts = this.props.facts
-        if(object == "--" || object == "" || object == null || !this.props.valid) {
+        var valid = this.props.valid
+        if(object == "--" || object == "" || object == null || valid === false) {
             return(
                 <View style = {styles.container}>
                     

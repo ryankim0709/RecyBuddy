@@ -10,12 +10,27 @@ const Stack = createStackNavigator()
 
 export default function StackNavigator() {
     return(
-        <NavigationContainer>
+        <NavigationContainer style = {{backgroundColor: "#00FF00"}}>
             <Stack.Navigator initialRouteName = "Mode" screenOptions = {{headerShown:true}}>
-                <Stack.Screen name = "Mode" component = {DrawerNavigator} options = {{headerShown:false}}/>
-                <Stack.Screen name = "Options" component = {gameOptions}/>
-                <Stack.Screen name = "Game" component = {GameScreen}/>
-                <Stack.Screen name = "Summary Screen" component = {SummaryScreen}/>
+                <Stack.Screen name = "Mode" component = {DrawerNavigator} options = {{
+                    headerShown:false,
+                    }}/>
+                <Stack.Screen name = "Options" component = {gameOptions} options = {
+                    {headerStyle: {backgroundColor: "#09B44D"},
+                    headerTitleStyle: {color: "#F6F6F6", fontWeight: 'bold'},
+                    headerBackTitleStyle: {color: "#F6F6F6", fontWeight: 'bold'},
+                }}/>
+                <Stack.Screen name = "Game" component = {GameScreen} options = {
+                    {headerStyle: {backgroundColor: "#09B44D"},
+                    headerTitleStyle: {color: "#F6F6F6", fontWeight: 'bold'},
+                    headerBackTitleStyle: {color: "#F6F6F6", fontWeight: 'bold'},
+                }}/>
+                <Stack.Screen name = "Summary Screen" component = {SummaryScreen} options = {
+                    {headerStyle: {backgroundColor: "#09B44D"},
+                    headerTitleStyle: {color: "#F6F6F6", fontWeight: 'bold'},
+                    headerBackTitleStyle: {color: "#F6F6F6", fontWeight: 'bold'},
+                    
+                }}/>
             </Stack.Navigator>
         </NavigationContainer>
     )

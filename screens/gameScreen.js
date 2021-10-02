@@ -53,7 +53,6 @@ const GameScreen = ({navigation, route}) => {
 
   //initialize game
   function initGame() {
-    console.log("GAME INIT HERE")
     index1 = 0
     percent1 = 0
     corr = 0;
@@ -172,7 +171,7 @@ const GameScreen = ({navigation, route}) => {
         {...panResponder.panHandlers}
       />
 
-      <Text>Correct: {correct} Incorrect: {incorrect}</Text>
+      <Text style = {styles.count}>Correct: {correct} Incorrect: {incorrect}</Text>
 
       <View style={styles.binContainer}>
         <Image style={styles.bins} source={require('../photos/bins.png')} />
@@ -188,6 +187,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: "#D0F1DD"
   },
   binContainer: {
     flex:1,
@@ -200,4 +200,11 @@ const styles = StyleSheet.create({
     height: (Dimensions.get('window').height * 1) / 4,
     opacity: 0.5,
   },
+  count: {
+    textAlign:'center',
+    fontSize:25,
+    fontWeight:'bold',
+    color: "#262626",
+    marginTop:10
+  }
 });

@@ -27,12 +27,12 @@ const styles = StyleSheet.create({
     container: {
         flex:1,
         alignContent: 'center',
-        alignItems:'center',
-        marginTop:10
+        //alignItems:'center',
+        backgroundColor: "#D0F1DD"
     },
     playAgain: {
-        backgroundColor: "#95d5b2",
-        width:"28%",
+        backgroundColor: "#09B44D",
+        width:"70%",
         height:60,
         borderRadius:20,
         alignItems:'center',
@@ -42,12 +42,14 @@ const styles = StyleSheet.create({
     },
     againText: {
         fontWeight:'bold',
-        textAlign:'center',
-        alignSelf:'center',
-        fontSize:15
+        //textAlign:'center',
+        //alignSelf:'center',
+        fontSize:25,
+        color: "#F6F6F6"
     },
     navOptions: {
-        flex:0.5,
-        flexDirection:'row'
+        //flex:0.5,
+        //flexDirection:'column',
+        //marginTop:10
     }
 })

@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import { Text, Button, View, Permission, Permissions, ScrollView, ActivityIndicator, Alert, Linking } from 'react-native';
+import { Text, Button, View, ScrollView, ActivityIndicator, Alert, Linking, TouchableOpacity, StyleSheet } from 'react-native';
 import{check, PERMISSIONS, RESULTS} from 'react-native-permissions'
 import Voice from 'react-native-voice';
 import InfoCard from '../infoCard';
 import {Audio} from 'expo-av'
 import db from '../config'
+import { Ionicons } from '@expo/vector-icons';
 
 const AudioScan = () => {
   const [isRecord, setIsRecord] = React.useState(false);
@@ -20,23 +21,18 @@ const AudioScan = () => {
     .then((result) => {
       switch (result) {
         case RESULTS.UNAVAILABLE:
-          console.log('This feature is not available (on this device / in this context)');
           setmicPerms(false)
           break;
         case RESULTS.DENIED:
-          console.log('The permission has not been requested / is denied but requestable');
           setmicPerms(false)
           break;
         case RESULTS.LIMITED:
-          console.log('The permission is limited: some actions are possible');
           setmicPerms(false)
           break;
         case RESULTS.GRANTED:
-          console.log('The permission is granted');
           setmicPerms(true)
           break;
         case RESULTS.BLOCKED:
-          console.log('The permission is denied and not requestable anymore');
           setmicPerms(false)
           break;
       }
@@ -46,23 +42,18 @@ const AudioScan = () => {
     .then((result) => {
       switch (result) {
         case RESULTS.UNAVAILABLE:
-          console.log('This feature is not available (on this device / in this context)');
           setSpeechRec(false)
           break;
         case RESULTS.DENIED:
-          console.log('The permission has not been requested / is denied but requestable');
           setSpeechRec(false)
           break;
         case RESULTS.LIMITED:
-          console.log('The permission is limited: some actions are possible');
           setSpeechRec(false)
           break;
         case RESULTS.GRANTED:
-          console.log('The permission is granted');
           setSpeechRec(true)
           break;
         case RESULTS.BLOCKED:
-          console.log('The permission is denied and not requestable anymore');
           setSpeechRec(false)
           break;
       }
@@ -83,12 +74,12 @@ const AudioScan = () => {
       setInit(true)
   }
 
-  const buttonLabel = isRecord ? 'Stop' : 'Start';
+  const buttonLabel = isRecord ? 'Stop' : 'Speak';
   const voiceLabel = text
     ? text
     : isRecord
     ? 'Say something...'
-    : 'Press start and say an object(e.x computer)';
+    : '';
   
   const __classify = () => {
     var word = text.toLocaleLowerCase()
@@ -172,14 +163,42 @@ const AudioScan = () => {
   }
   else {
     return (
-        <ScrollView contentContainerStyle = {{flex:1, justifyContent:'center', alignItems:'center', backgroundColor: "#D0F1DD"}}>
-          <Text>{voiceLabel}</Text>
-          <Button onPress={_onRecordVoice} title={buttonLabel} /> 
-          <Button onPress = {__classify} title = "Classify"/>
+        <ScrollView contentContainerStyle = {{flex:1, justifyContent:'center', alignItems:'center', backgroundColor: "#D0F1DD"}} style = {{backgroundColor: "#D0F1DD"}}>
+          <Text style = {styles.object}>{voiceLabel}</Text>
+          <TouchableOpacity onPress = {_onRecordVoice} style = {styles.actionButton}>
+            <Ionicons name = {"mic"} size = {35} style = {{color: "#F6F6F6"}}/>
+          </TouchableOpacity>
+          <TouchableOpacity onPress = {__classify} style = {styles.actionButton}>
+            <Ionicons name = {"search-outline"} size = {35} style = {{color: "#F6F6F6"}}/>
+          </TouchableOpacity>
+
           <InfoCard object = {text} facts = {facts} valid = {isReal}/>
         </ScrollView>
       );
     }
 };
+
+const styles = StyleSheet.create({
+  actionButton: {
+    width:"70%",
+    height:40,
+    margin: 5,
+    justifyContent: 'center',
+    backgroundColor: "#09B44D",
+    borderRadius: 10,
+    flexDirection: 'row'
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: "#F6F6F6",
+    fontWeight: 'bold',
+    fontSize: 25
+  },
+  object: {
+    fontWeight: 'bold',
+    fontSize: 30,
+    color: "#262626"
+  }
+})
 
 export default AudioScan;

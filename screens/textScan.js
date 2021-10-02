@@ -20,12 +20,9 @@ export default class TextScan extends React.Component {
     }
 
     componentDidMount = () => {
-        console.log("---------------------------------")
         var test;
         db.ref('/').on('value', data => {
-            console.log(data.val())
             for(var fact in data.val()) {
-                console.log("NAME: "+fact)
                 db.ref(fact+"/").on('value', data2 => {
                     var useData = data2.val()
 
@@ -36,18 +33,15 @@ export default class TextScan extends React.Component {
             }
         })
         this.setState({initialized:true})
-        console.log("---------------------------------")
     }
     classifyObject = () => {
         var word = this.state.object.toLocaleLowerCase()
         db.ref(word+'/').on('value', data => {
             var useData = data.val()
             for(var fact in useData) {
-                console.log("FACT: "+useData[fact])
                 this.state.facts.push(useData[fact])
             }
         })
-        //console.log("FACTS: "+this.state.facts)
         this.update()
     }
 
@@ -56,8 +50,6 @@ export default class TextScan extends React.Component {
         var fact = this.state.facts
         this.setState({cardObject:object, cardFacts:fact})
         this.setState({object:"--",facts:[], clear:true})
-        //console.log("FINISHED")
-        //console.log("OBJECT: "+this.state.object)
     }
     
 
@@ -69,7 +61,6 @@ export default class TextScan extends React.Component {
                 this.state.facts.push(useData[fact])
             }
         })
-        //console.log("FACTS: "+this.state.facts)
         this.update1()
     }
 
@@ -78,8 +69,6 @@ export default class TextScan extends React.Component {
         var fact = this.state.facts
         this.setState({cardObject:object, cardFacts:fact})
         this.setState({object:"",facts:[]})
-        //console.log("FINISHED")
-        //console.log("OBJECT: "+this.state.object)
     }
     render() {
         if(!this.state.initialized) {
@@ -91,7 +80,7 @@ export default class TextScan extends React.Component {
         }
         else {
             return(
-                <ScrollView>
+                <ScrollView contentContainerStyle = {styles.container} style = {{backgroundColor: "#D0F1DD"}}>
                     <KeyboardAvoidingView behavior  = {Platform.OS === "ios" ? "padding" : "height"} style = {{flex:1}}>
                     {/*We Make our header*/}
                    
@@ -101,7 +90,7 @@ export default class TextScan extends React.Component {
                             <TextInput
                                 multiline = {true}
                                 style = {styles.scanBox}
-                                placeholder="Object"
+                                placeholder="Type Here"
                                 onChangeText={text => {
                                     if(this.state.clear) {
                                         text = "";
@@ -112,7 +101,7 @@ export default class TextScan extends React.Component {
                                 onSubmitEditing = {this.classifyObject}
                                 value = {this.state.object}/>
                                 <TouchableOpacity onPress = {this.classifyObject1}>
-                                    <Ionicons name = {"search"} size = {50} style = {{marginTop:100}}/>
+                                    <Ionicons name = {"search"} size = {50} style = {{marginTop:100, color: "#09B44D"}}/>
                                 </TouchableOpacity>
                         </View>
                     </TouchableWithoutFeedback>
@@ -134,7 +123,7 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignContent:'center',
         alignItems:'center',
-        marginTop:40
+        backgroundColor: "#D0F1DD"
     },
     //style for the box where we input
     scanBox: {
@@ -142,10 +131,13 @@ const styles = StyleSheet.create({
         width:"80%",
         height:40,
         justifyContent:'center',
-        borderWidth:2,
         alignSelf:'center',
         textAlign:'center',
-        
+        borderColor: "#09B44D",
+        borderRadius: 10,
+        backgroundColor: "#F6F6F6",
+        borderWidth: 1.5,
+        alignItems: 'center'
     },
     //style for the button we click to search
     searchButton: {

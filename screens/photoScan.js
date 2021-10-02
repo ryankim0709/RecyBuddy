@@ -1,8 +1,9 @@
 import * as ImagePicker from 'expo-image-picker';
 import React from 'react';
-import { Button, Image, StyleSheet, Text, View, Linking, Alert, ScrollView, PERMISSIONS, } from 'react-native';
+import { Button, Image, StyleSheet, Text, View, Linking, Alert, ScrollView, TouchableOpacity } from 'react-native';
 import db from '../config'
 import InfoCard from '../infoCard';
+import { Ionicons } from '@expo/vector-icons';
 
 const API_KEY = 'AIzaSyCI1Ekex-K9RtT5vNoTgYKvVNi8hZJfkzg';
 const API_URL = `https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`;
@@ -42,10 +43,7 @@ export default function PhotoScan() {
 
   const [image, setImage] = React.useState(null);
   const [status, setStatus] = React.useState(null);
-  //var result = cameraReady()
-  //console.log("RESULTS: "+result)
   const [permissions, setPermissions] = React.useState(cameraReady());
-  //console.log("PERMISSION STATUS: "+(permissions))
   const [facts, setFacts] = React.useState([])
   const [isReal, setIsReal] = React.useState(false)
 
@@ -69,9 +67,7 @@ export default function PhotoScan() {
 
   async function cameraReady() {
     let permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-    console.log(permissionResult)
     permissionResult = permissionResult.granted === true
-    console.log("PERMISSION STATUS: "+permissionResult)
     setPermissions(permissionResult)
     return permissionResult
   }
@@ -114,12 +110,11 @@ export default function PhotoScan() {
       return;
     } else {
       setPermissions(true);
-      console.log("TRUE")
     }
   };
 
   const takePictureAsync = async () => {
-    setIsReal(false)
+    await setIsReal(false)
     const { cancelled, uri, base64 } = await ImagePicker.launchCameraAsync({
       base64: true,
     });
@@ -141,21 +136,25 @@ export default function PhotoScan() {
   };
 
   return (
-    <View style={styles.container}>
-      <ScrollView contentContainerStyle = {styles.container}>
+      <ScrollView contentContainerStyle = {styles.container} style = {{backgroundColor: "#D0F1DD"}}>
       {permissions === false ? (
         <Button onPress={askPermissionsAsync} title="Ask permissions" />
       ) : (
         <>
           {image && <Image style={styles.image} source={{ uri: image }} />}
-          {status && <Text style={styles.text}>{status}</Text>}
-          <Button onPress={takePictureAsync} title="Take a Picture" />
-          <Button onPress={classify} title="Classify" />
+          {status && <Text style={styles.object}>{status}</Text>}
+          <TouchableOpacity ></TouchableOpacity>
+          <TouchableOpacity></TouchableOpacity>
+          <TouchableOpacity onPress = {takePictureAsync} style = {styles.actionButton}>
+            <Ionicons name = {"camera"} size = {35} style = {{color: "#F6F6F6"}}/>
+          </TouchableOpacity>
+          <TouchableOpacity onPress = {classify} style = {styles.actionButton}>
+            <Ionicons name = {"search-outline"} size = {35} style = {{color: "#F6F6F6"}}/>
+          </TouchableOpacity>
           <InfoCard object = {status} facts = {facts} valid = {isReal}/>
         </>
       )}
       </ScrollView>
-    </View>
   );
 }
 
@@ -165,6 +164,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: "#D0F1DD"
   },
   image: {
     width: 300,
@@ -173,4 +173,24 @@ const styles = StyleSheet.create({
   text: {
     margin: 5,
   },
+  actionButton: {
+    width:"70%",
+    height:40,
+    margin: 5,
+    justifyContent: 'center',
+    backgroundColor: "#09B44D",
+    borderRadius: 10,
+    flexDirection: 'row'
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: "#F6F6F6",
+    fontWeight: 'bold',
+    fontSize: 25
+  },
+  object: {
+    fontWeight: 'bold',
+    fontSize: 30,
+    color: "#262626"
+  }
 });

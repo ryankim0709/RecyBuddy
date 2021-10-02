@@ -15,7 +15,7 @@ export default class App extends React.Component {
       // <NavigationContainer>
       //   <DrawerNavigator/>
       // </NavigationContainer>
-      <StackNavigator/>
+      <StackNavigator style = {{backGroundColor: 'black'}}/>
       //<Modal/>
     )
   }

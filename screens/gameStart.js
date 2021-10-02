@@ -1,18 +1,18 @@
 import * as React from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ScrollView } from 'react-native'
 
 export default function gameStart({navigation}) {
 
 
         return(
-            <View style  = {styles.contianer}>
+            <ScrollView contentContainerStyle = {{flex:1, alignItems: 'center'}} style = {{backgroundColor: "#D0F1DD"}}>
 
                 <TouchableOpacity style = {styles.gameButton} onPress = {() => {
                     navigation.navigate("Options")
                 }} >
                     <Text style = {styles.gameText}>Learn mode</Text>
                 </TouchableOpacity> 
-            </View>
+            </ScrollView>
         )
     
 }
@@ -21,12 +21,13 @@ const styles = StyleSheet.create({
     contianer: {
         flex:1,
         alignItems:'center',
-        marginTop:10
+        marginTop:10,
+        justifyContent:'center'
     },
     gameButton: {
         width: Dimensions.get('window').width * 7/10,
         height: Dimensions.get('window').height * 1/10,
-        backgroundColor: '#b5e48c',
+        backgroundColor: '#09B44D',
         justifyContent:'center',
         borderRadius:10,
         marginTop:10
@@ -35,6 +36,7 @@ const styles = StyleSheet.create({
         textAlign:'center',
         fontWeight:'bold',
         alignItems:'center',
-        fontSize:30
+        fontSize:30,
+        color: "#F6F6F6"
     }
 })

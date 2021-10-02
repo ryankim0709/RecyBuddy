@@ -1,17 +1,13 @@
 import * as React from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ScrollView } from 'react-native'
 
 export default function HomeScreen({navigation}) {
 
 
         return(
-            <View style  = {styles.contianer}>
-                {/* <TouchableOpacity style = {styles.gameButton} onPress = {() => {
-                    navigation.navigate("Game Options")
-                }} >
-                    <Text style = {styles.gameText}>Play the recycling game!</Text>
-                </TouchableOpacity> */}
-            </View>
+            <ScrollView contentContainerStyle = {styles.contianer} style = {{backgroundColor: "#D0F1DD"}}>
+
+            </ScrollView>
         )
     
 }
@@ -20,7 +16,7 @@ const styles = StyleSheet.create({
     contianer: {
         flex:1,
         alignItems:'center',
-        marginTop:10
+        backgroundColor: "#D0F1DD"
     },
     gameButton: {
         width: Dimensions.get('window').width * 7/10,

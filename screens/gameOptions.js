@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
-import{View, Text, StyleSheet, TouchableOpacity} from 'react-native'
-import ScrollPicker from 'react-native-wheel-scrollview-picker';
+import{View, Text, StyleSheet, TouchableOpacity, ScrollView} from 'react-native'
 import WheelPicker from 'react-native-wheely';
 
 export default function gameOptions({navigation, route}) {
@@ -11,13 +10,15 @@ export default function gameOptions({navigation, route}) {
     return(
         <View style = {styles.container}>
             <View>
-                <Text style = {{paddingTop:20}}>Choose the number of items you would like to play with</Text>
+                <Text style = {styles.text}>Choose the number of items you would like to play with</Text>
                 <Text>{choices[selected]}</Text>
             </View>
             <View>
-            <WheelPicker 
+            <WheelPicker
                 options={[1,5,10,15]}
                 selected = {selected}
+                itemStyle = {{backgroundColor: "#09B44D"}}
+                itemTextStyle = {{color: "#F6F6F6"}}
                 onChange={(num) => setSelected(num)}
             />
             </View>
@@ -35,19 +36,28 @@ export default function gameOptions({navigation, route}) {
 const styles = StyleSheet.create({
     container: {
         flex:1,
-        alignItems:'center'
+        alignItems:'center',
+        backgroundColor: "#D0F1DD"
     },
     navigateButton: {
         borderRadius:10,
-        backgroundColor: "#95d5b2",
+        backgroundColor: "#09B44D",
         width:"80%",
         textAlign:'center',
         alignItems:'center',
-        justifyContent:'center'
+        justifyContent:'center',
+        height: 40
     },
     navigateText: {
-        fontSize:30,
+        fontSize:25,
         fontWeight:'bold',
-        textAlign:'center'
+        textAlign:'center',
+        color: "#F6F6F6"
+    },
+    text: {
+        fontSize:25,
+        fontWeight:'bold',
+        textAlign:'center',
+        color:"#262626"
     }
 })
