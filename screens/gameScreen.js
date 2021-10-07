@@ -16,15 +16,15 @@ import db from "../config";
 import items from "../list";
 import itemName from "../itemName";
 import { Ionicons } from "@expo/vector-icons";
-import { color } from "react-native-reanimated";
 import { ScrollView } from "react-native-gesture-handler";
-import InfoCard from "../infoCard";
+import InfoModal from "../infoModal";
 
 const GameScreen = ({ navigation, route }) => {
 	const pan = useState(new Animated.ValueXY())[0];
 	//item names and names
 	const images = items;
 	const names = itemName;
+	const mode = route.params.mode;
 	//num items to play with and type of game mode
 	var numItems = route.params.num;
 
@@ -46,6 +46,11 @@ const GameScreen = ({ navigation, route }) => {
 	index1 = index;
 	const [percent, setPercent] = useState(0);
 	const [modalIsVisible, setModalIsVisible] = useState(false);
+
+	const [modalIndex, setModalIndex] = useState(0);
+	const [modalGivenImage, setModalGivenImage] = useState("");
+	const [modalActualImage, setModalActualImage] = useState("");
+	const [given, setGiven] = useState("");
 
 	//return the answer for a given object
 	function check(object) {
@@ -112,8 +117,19 @@ const GameScreen = ({ navigation, route }) => {
 				// on release
 				var object = names[index1];
 				var answer = check(object);
+
+				if (answer === "landfill") {
+					setModalActualImage(require("../photos/landfillBin.png"));
+				} else if (answer === "recyclable") {
+					setModalActualImage(require("../photos/recycleBin.png"));
+				} else {
+					setModalActualImage(require("../photos/compostBin.png"));
+				}
+				setModalIndex(index1);
 				if (pan.y._value >= 180) {
 					if (pan.x._value >= 73) {
+						setGiven("landfill");
+						setModalGivenImage(require("../photos/landfillBin.png"));
 						if (answer == "landfill") {
 							corr++;
 							setCorrect(corr);
@@ -122,6 +138,8 @@ const GameScreen = ({ navigation, route }) => {
 							setIncorrect(incorr);
 						}
 					} else if (pan.x._value <= -73) {
+						setGiven("compostable");
+						setModalGivenImage(require("../photos/compostBin.png"));
 						if (answer == "compostable") {
 							corr++;
 							setCorrect(corr);
@@ -130,6 +148,8 @@ const GameScreen = ({ navigation, route }) => {
 							setIncorrect(incorr);
 						}
 					} else {
+						setGiven("recyclable");
+						setModalGivenImage(require("../photos/recycleBin.png"));
 						if (answer == "recyclable") {
 							corr++;
 							setCorrect(corr);
@@ -137,10 +157,13 @@ const GameScreen = ({ navigation, route }) => {
 							incorr++;
 							setIncorrect(incorr);
 						}
+					}
 
-						if (percent1 > percentAdd * (numItems - 2) === false) {
-							changeModal();
-						}
+					if (
+						percent1 > percentAdd * (numItems - 2) === false &&
+						mode === "learn"
+					) {
+						changeModal();
 					}
 
 					index1 = Math.floor(Math.random() * 100) % len;
@@ -153,9 +176,11 @@ const GameScreen = ({ navigation, route }) => {
 
 					percent1 = percent1 + percentAdd;
 					setPercent(percent1);
-					//console.log("PERCENT: "+percent1)
 					if (percent1 > percentAdd * (numItems - 1)) {
-						navigation.navigate("Summary Screen", { num: numItems });
+						navigation.navigate("Summary Screen", {
+							num: numItems,
+							mode: mode,
+						});
 						initGame();
 					}
 
@@ -220,6 +245,7 @@ const GameScreen = ({ navigation, route }) => {
 							height: 150,
 							justifyContent: "center",
 							alignSelf: "center",
+							marginBottom: 20,
 							transform: [
 								{
 									translateX: pan.x,
@@ -241,9 +267,16 @@ const GameScreen = ({ navigation, route }) => {
 							changeModal();
 						}}
 					>
-						<View
-							style={{ width: 100, height: 100, backgroundColor: "red" }}
-						></View>
+						<View style={styles.modal}>
+							<InfoModal
+								image={images[modalIndex]}
+								actual={check(names[modalIndex])}
+								name={names[modalIndex]}
+								given={given}
+								givenImage={modalGivenImage}
+								actualImage={modalActualImage}
+							/>
+						</View>
 					</TouchableWithoutFeedback>
 				</Modal>
 				<View style={styles.count}>
@@ -264,15 +297,15 @@ const GameScreen = ({ navigation, route }) => {
 				<View style={styles.binContainer}>
 					<Image
 						style={styles.bins}
-						source={require("../photos/unnamed-1.png")}
+						source={require("../photos/compostBin.png")}
 					/>
 					<Image
 						style={styles.bins}
-						source={require("../photos/unnamed-2.png")}
+						source={require("../photos/recycleBin.png")}
 					/>
 					<Image
 						style={styles.bins}
-						source={require("../photos/unnamed.png")}
+						source={require("../photos/landfillBin.png")}
 					/>
 				</View>
 			</View>
@@ -308,5 +341,11 @@ const styles = StyleSheet.create({
 		fontSize: 40,
 		fontWeight: "600",
 		marginTop: 5,
+	},
+	modal: {
+		flex: 1,
+		justifyContent: "center",
+		alignSelf: "center",
+		marginBottom: "20%",
 	},
 });
