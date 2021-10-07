@@ -1,25 +1,21 @@
 import React from 'react'
-import {View, StyleSheet, Text, TouchableOpacity} from 'react-native'
+import {View, StyleSheet, Text, TouchableOpacity, ScrollView} from 'react-native'
 
 export default function SummaryScreen({navigation, route}) {
     var numItems = route.params.num
 
     return(
-        <View style = {styles.container}>
+        <ScrollView contentContainerStyle = {styles.container} style = {{backgroundColor: "#D0F1DD"}}>
             <View style = {styles.navOptions}>
-                <TouchableOpacity style = {styles.playAgain} onPress = {() => {navigation.navigate("Options")}}>
-                    <Text style = {styles.againText}>Play Again with different settings!</Text>
-                </TouchableOpacity>
-
                 <TouchableOpacity style = {styles.playAgain} onPress = {() => {navigation.navigate("Game", {num: numItems})}}>
-                    <Text style = {styles.againText}>Play Again with same settings!</Text>
+                    <Text style = {styles.againText}>Play Again</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style = {styles.playAgain} onPress = {() => {navigation.navigate("Mode")}}>
                     <Text style = {styles.againText}>Go Home</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </ScrollView>
     )
 }
 
@@ -32,8 +28,8 @@ const styles = StyleSheet.create({
     },
     playAgain: {
         backgroundColor: "#09B44D",
-        width:"70%",
-        height:60,
+        width:"45%",
+        height:48,
         borderRadius:20,
         alignItems:'center',
         justifyContent:'center',
@@ -42,14 +38,15 @@ const styles = StyleSheet.create({
     },
     againText: {
         fontWeight:'bold',
-        //textAlign:'center',
-        //alignSelf:'center',
-        fontSize:25,
+        textAlign:'center',
+        alignSelf:'center',
+        fontSize:20,
         color: "#F6F6F6"
     },
     navOptions: {
-        //flex:0.5,
-        //flexDirection:'column',
-        //marginTop:10
+        flexDirection:'row',
+        marginTop:10,
+        alignItems: "center",
+        alignSelf:'center'
     }
 })

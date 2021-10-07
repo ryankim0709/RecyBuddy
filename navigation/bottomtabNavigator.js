@@ -71,7 +71,8 @@ const MetTab = createMaterialBottomTabNavigator(
             <Ionicons name = {'text'} size = {25}/>
           </View>
         ),
-        activeColor: "#09B44D"
+        activeColor: "#09B44D",
+        size: 20
       },
     },
     Photo: {
@@ -99,7 +100,12 @@ const MetTab = createMaterialBottomTabNavigator(
     }
   },
   {
-    barStyle: {backgroundColor: "#D0F1DD", height: "10%", },
+    barStyle: {backgroundColor: "#D0F1DD", height: "10%"},
+  },
+  {
+    BottomTabnavigatorConfig: {
+      style: {fontSize: 20}
+    }
   }
 )
 

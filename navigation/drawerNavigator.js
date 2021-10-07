@@ -26,8 +26,7 @@ const DrawerNavigator = () => {
                 drawerInactiveTintColor: "#262626",
                 drawerContentContainerStyle: styles.container,
                 drawerItemStyle: styles.item,
-                drawerLabelStyle: styles.text
-                
+                drawerLabelStyle: styles.text,
                 }}>
                 <Drawer.Screen name = "Home" component = {HomeScreen} options = {{
                     headerStyle: {

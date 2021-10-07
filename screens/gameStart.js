@@ -5,12 +5,18 @@ export default function gameStart({navigation}) {
 
 
         return(
-            <ScrollView contentContainerStyle = {{flex:1, alignItems: 'center'}} style = {{backgroundColor: "#D0F1DD"}}>
+            <ScrollView contentContainerStyle = {{flex:1, alignItems: 'center', justifyContent:'center'}} style = {{backgroundColor: "#D0F1DD"}}>
 
                 <TouchableOpacity style = {styles.gameButton} onPress = {() => {
                     navigation.navigate("Options")
                 }} >
-                    <Text style = {styles.gameText}>Learn mode</Text>
+                    <Text style = {styles.gameText}>Learn</Text>
+                </TouchableOpacity> 
+
+                <TouchableOpacity style = {styles.gameButton} onPress = {() => {
+                    navigation.navigate("Options")
+                }} >
+                    <Text style = {styles.gameText}>Challenge</Text>
                 </TouchableOpacity> 
             </ScrollView>
         )

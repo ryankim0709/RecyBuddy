@@ -1,9 +1,10 @@
 const itemName = [
     'battery',
     'banana',
-    'bottles',
+    'bottle',
+    'branch',
     'eggshell',
-    'coffe filter',
+    'coffee filter',
     'flower',
     'leaves',
     'paper cup',
