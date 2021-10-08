@@ -48,6 +48,10 @@ export default class TextScan extends React.Component {
 	};
 	classifyObject = () => {
 		var word = this.state.object.toLocaleLowerCase();
+		while (word.charAt(word.length - 1) === " ") {
+			word = word.substring(0, word.length - 1);
+		}
+		this.setState({ object: word });
 		db.ref(word + "/").on("value", (data) => {
 			var useData = data.val();
 			for (var fact in useData) {
@@ -61,11 +65,15 @@ export default class TextScan extends React.Component {
 		var object = this.state.object;
 		var fact = this.state.facts;
 		this.setState({ cardObject: object, cardFacts: fact });
-		this.setState({ object: "--", facts: [], clear: true });
+		this.setState({ facts: [], clear: true });
 	};
 
 	classifyObject1 = () => {
 		var word = this.state.object.toLocaleLowerCase();
+		while (word.charAt(word.length - 1) === " ") {
+			word = word.substring(0, word.length - 1);
+		}
+		this.setState({ object: word });
 		db.ref(word + "/").on("value", (data) => {
 			var useData = data.val();
 			for (var fact in useData) {
@@ -79,7 +87,7 @@ export default class TextScan extends React.Component {
 		var object = this.state.object;
 		var fact = this.state.facts;
 		this.setState({ cardObject: object, cardFacts: fact });
-		this.setState({ object: "", facts: [] });
+		this.setState({ facts: [] });
 	};
 	render() {
 		if (!this.state.initialized) {
@@ -101,10 +109,7 @@ export default class TextScan extends React.Component {
 			);
 		} else {
 			return (
-				<ScrollView
-					contentContainerStyle={styles.container}
-					style={{ backgroundColor: "#D0F1DD" }}
-				>
+				<ScrollView style={{ backgroundColor: "#D0F1DD" }}>
 					<KeyboardAvoidingView
 						behavior={Platform.OS === "ios" ? "padding" : "height"}
 						style={{ flex: 1 }}
@@ -124,9 +129,9 @@ export default class TextScan extends React.Component {
 								}}
 							>
 								<TextInput
-									multiline={true}
 									style={styles.scanBox}
 									placeholder="Type Here"
+									clearButtonMode="while-editing"
 									onChangeText={(text) => {
 										if (this.state.clear) {
 											text = "";

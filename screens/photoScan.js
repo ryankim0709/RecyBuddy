@@ -124,7 +124,6 @@ export default function PhotoScan() {
 	};
 
 	const takePictureAsync = async () => {
-		await setIsReal(false);
 		const { cancelled, uri, base64 } = await ImagePicker.launchCameraAsync({
 			base64: true,
 		});
@@ -143,60 +142,60 @@ export default function PhotoScan() {
 			setImage(null);
 			setStatus(null);
 		}
+		await setIsReal(false);
 	};
 
 	if (!init) {
 		return (
-			<ScrollView
-				contentContainerStyle={styles.container}
-				style={{ backgroundColor: "#DF1DD" }}
-			>
-				<ActivityIndicator
-					size="large"
-					style={{ marginTop: "10%" }}
-					color="#09B44D"
-				/>
+			<ScrollView style={{ backgroundColor: "#DF1DD" }}>
+				<View style={styles.container}>
+					<ActivityIndicator
+						size="large"
+						style={{ marginTop: "10%" }}
+						color="#09B44D"
+					/>
+				</View>
 			</ScrollView>
 		);
 	} else {
 		return (
-			<ScrollView
-				contentContainerStyle={styles.container}
-				style={{ backgroundColor: "#D0F1DD" }}
-			>
+			<ScrollView style={{ backgroundColor: "#D0F1DD" }}>
 				{permissions === false ? (
-					<TouchableOpacity
-						onPress={askPermissionsAsync}
-						style={styles.permissions}
-					>
-						<Text style={styles.permissionText}>
-							Enable camera permissions to take photos
-						</Text>
-					</TouchableOpacity>
+					<View style={styles.container}>
+						<TouchableOpacity
+							onPress={askPermissionsAsync}
+							style={styles.permissions}
+						>
+							<Text style={[styles.permissionText, { marginTop: 15 }]}>
+								Enable camera permissions
+							</Text>
+						</TouchableOpacity>
+					</View>
 				) : (
 					<>
-						{image && <Image style={styles.image} source={{ uri: image }} />}
-						{status && <Text style={styles.object}>{status}</Text>}
-						<TouchableOpacity></TouchableOpacity>
-						<TouchableOpacity></TouchableOpacity>
-						<TouchableOpacity
-							onPress={takePictureAsync}
-							style={styles.actionButton}
-						>
-							<Ionicons
-								name={"camera"}
-								size={35}
-								style={{ color: "#F6F6F6" }}
-							/>
-						</TouchableOpacity>
-						<TouchableOpacity onPress={classify} style={styles.actionButton}>
-							<Ionicons
-								name={"search-outline"}
-								size={35}
-								style={{ color: "#F6F6F6" }}
-							/>
-						</TouchableOpacity>
-						<InfoCard object={status} facts={facts} valid={isReal} />
+						<View style={styles.container}>
+							{image && <Image style={styles.image} source={{ uri: image }} />}
+							{status && <Text style={styles.object}>{status}</Text>}
+
+							<TouchableOpacity
+								onPress={takePictureAsync}
+								style={styles.actionButton}
+							>
+								<Ionicons
+									name={"camera"}
+									size={35}
+									style={{ color: "#F6F6F6" }}
+								/>
+							</TouchableOpacity>
+							<TouchableOpacity onPress={classify} style={styles.actionButton}>
+								<Ionicons
+									name={"search-outline"}
+									size={35}
+									style={{ color: "#F6F6F6" }}
+								/>
+							</TouchableOpacity>
+							<InfoCard object={status} facts={facts} valid={isReal} />
+						</View>
 					</>
 				)}
 			</ScrollView>
@@ -207,14 +206,13 @@ export default function PhotoScan() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "white",
 		alignItems: "center",
-		justifyContent: "center",
-		backgroundColor: "#D0F1DD",
+		marginTop: 10,
 	},
 	image: {
-		width: 300,
-		height: 300,
+		width: 200,
+		height: 200,
+		borderRadius: 10,
 	},
 	text: {
 		margin: 5,

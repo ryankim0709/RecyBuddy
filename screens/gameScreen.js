@@ -44,6 +44,7 @@ const GameScreen = ({ navigation, route }) => {
 	const [incorrect, setIncorrect] = useState(0);
 	const [index, setIndex] = useState(Math.floor(Math.random() * 100) % len);
 	index1 = index;
+	seen.push(index1);
 	const [percent, setPercent] = useState(0);
 	const [modalIsVisible, setModalIsVisible] = useState(false);
 
@@ -166,14 +167,6 @@ const GameScreen = ({ navigation, route }) => {
 						changeModal();
 					}
 
-					index1 = Math.floor(Math.random() * 100) % len;
-					while (seen.indexOf(index1) >= 0) {
-						index1 = Math.floor(Math.random() * 100) % len;
-					}
-
-					seen.push(index1);
-					setIndex(index1);
-
 					percent1 = percent1 + percentAdd;
 					setPercent(percent1);
 					if (percent1 > percentAdd * (numItems - 1)) {
@@ -182,6 +175,15 @@ const GameScreen = ({ navigation, route }) => {
 							mode: mode,
 						});
 						initGame();
+					} else {
+						index1 = Math.floor(Math.random() * 100) % len;
+						while (seen.indexOf(index1) >= 0) {
+							index1 = Math.floor(Math.random() * 100) % len;
+						}
+						seen.push(index1);
+						console.log("SEEN: " + seen);
+						console.log("INDEX: " + index1);
+						setIndex(index1);
 					}
 
 					Animated.timing(pan, {

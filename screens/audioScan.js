@@ -137,10 +137,7 @@ const AudioScan = () => {
 
 	if (!init) {
 		return (
-			<ScrollView
-				contentContainerStyle={styles.container}
-				style={{ backgroundColor: "#DF1DD" }}
-			>
+			<ScrollView style={{ backgroundColor: "#D0F1DD" }}>
 				<ActivityIndicator
 					size="large"
 					style={{ marginTop: "10%" }}
@@ -150,59 +147,55 @@ const AudioScan = () => {
 		);
 	} else if (!speechRec || !micPerms) {
 		return (
-			<ScrollView
-				contentContainerStyle={styles.container}
-				style={{ backgroundColor: "#D0F1DD" }}
-			>
-				<TouchableOpacity
-					style={styles.permissionBox}
-					onPress={() => {
-						Alert.alert(
-							"Microphone and Speech recognition permission required",
-							"Microphone and Speech recognition permissions is required to record",
-							[
-								{
-									text: "Settings",
-									onPress: () => Linking.openURL("app-settings:"),
-									style: "cancel",
-								},
-								{
-									text: "Cancel",
-								},
-							]
-						);
-					}}
-				>
-					<Text style={styles.permissionText}>
-						Enable microphone and speech recognition permissions to record
-					</Text>
-				</TouchableOpacity>
+			<ScrollView style={{ backgroundColor: "#D0F1DD" }}>
+				<View style={styles.container}>
+					<TouchableOpacity
+						style={styles.permissionBox}
+						onPress={() => {
+							Alert.alert(
+								"Microphone and Speech recognition permission required",
+								"Microphone and Speech recognition permissions is required to record",
+								[
+									{
+										text: "Settings",
+										onPress: () => Linking.openURL("app-settings:"),
+										style: "cancel",
+									},
+									{
+										text: "Cancel",
+									},
+								]
+							);
+						}}
+					>
+						<Text style={styles.permissionText}>
+							Enable microphone and speech recognition permissions
+						</Text>
+					</TouchableOpacity>
+				</View>
 			</ScrollView>
 		);
 	} else {
 		return (
-			<ScrollView
-				contentContainerStyle={{
-					flex: 1,
-					justifyContent: "center",
-					alignItems: "center",
-					backgroundColor: "#D0F1DD",
-				}}
-				style={{ backgroundColor: "#D0F1DD" }}
-			>
-				<Text style={styles.object}>{voiceLabel}</Text>
-				<TouchableOpacity onPress={_onRecordVoice} style={styles.actionButton}>
-					<Ionicons name={"mic"} size={35} style={{ color: "#F6F6F6" }} />
-				</TouchableOpacity>
-				<TouchableOpacity onPress={__classify} style={styles.actionButton}>
-					<Ionicons
-						name={"search-outline"}
-						size={35}
-						style={{ color: "#F6F6F6" }}
-					/>
-				</TouchableOpacity>
+			<ScrollView style={{ backgroundColor: "#D0F1DD" }}>
+				<View style={styles.container}>
+					<Text style={styles.object}>{voiceLabel}</Text>
+					<TouchableOpacity
+						onPress={_onRecordVoice}
+						style={styles.actionButton}
+					>
+						<Ionicons name={"mic"} size={35} style={{ color: "#F6F6F6" }} />
+					</TouchableOpacity>
+					<TouchableOpacity onPress={__classify} style={styles.actionButton}>
+						<Ionicons
+							name={"search-outline"}
+							size={35}
+							style={{ color: "#F6F6F6" }}
+						/>
+					</TouchableOpacity>
 
-				<InfoCard object={text} facts={facts} valid={isReal} />
+					<InfoCard object={text} facts={facts} valid={isReal} />
+				</View>
 			</ScrollView>
 		);
 	}
@@ -212,8 +205,8 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: "center",
-		backgroundColor: "#D0F1DD",
 		alignItems: "center",
+		marginTop: 15,
 	},
 	actionButton: {
 		width: "70%",
