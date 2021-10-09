@@ -174,9 +174,6 @@ export default function PhotoScan() {
 				) : (
 					<>
 						<View style={styles.container}>
-							{image && <Image style={styles.image} source={{ uri: image }} />}
-							{status && <Text style={styles.object}>{status}</Text>}
-
 							<TouchableOpacity
 								onPress={takePictureAsync}
 								style={styles.actionButton}
@@ -194,6 +191,9 @@ export default function PhotoScan() {
 									style={{ color: "#F6F6F6" }}
 								/>
 							</TouchableOpacity>
+							{image && <Image style={styles.image} source={{ uri: image }} />}
+							{status && <Text style={styles.object}>{status}</Text>}
+
 							<InfoCard object={status} facts={facts} valid={isReal} />
 						</View>
 					</>
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
 		margin: 5,
 	},
 	actionButton: {
-		width: "70%",
+		width: "60%",
 		height: 40,
 		margin: 5,
 		justifyContent: "center",

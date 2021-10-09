@@ -15,7 +15,7 @@ export default class InfoCard extends React.Component {
 			if (typeof facts[1] === "undefined") {
 				return (
 					<View style={styles.container}>
-						<Text>NOT FOUND</Text>
+						<Text style={styles.text}>NOT FOUND</Text>
 					</View>
 				);
 			} else {
@@ -35,7 +35,6 @@ export default class InfoCard extends React.Component {
 				return (
 					<View style={styles.container}>
 						<Image source={path} style={styles.symbol} />
-						<Text style={{ fontSize: 20 }}></Text>
 					</View>
 				);
 			}
@@ -45,11 +44,8 @@ export default class InfoCard extends React.Component {
 
 const styles = StyleSheet.create({
 	container: {
-		//width: Dimensions.get('window').width * 4/5,
-		//height: Dimensions.get('window').height * 2/5,
-		//borderColor:'black',
-		//borderWidth:10,
 		alignSelf: "center",
+		marginTop: 10,
 	},
 	symbol: {
 		width: 250,
@@ -57,8 +53,9 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 		borderRadius: 10,
 	},
-	learnText: {
-		textAlign: "center",
-		fontSize: 20,
+	text: {
+		fontWeight: "bold",
+		fontSize: 25,
+		color: "#262626",
 	},
 });

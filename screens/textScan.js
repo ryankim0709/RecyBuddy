@@ -65,7 +65,7 @@ export default class TextScan extends React.Component {
 		var object = this.state.object;
 		var fact = this.state.facts;
 		this.setState({ cardObject: object, cardFacts: fact });
-		this.setState({ facts: [], clear: true });
+		this.setState({ facts: [] });
 	};
 
 	classifyObject1 = () => {
@@ -132,6 +132,7 @@ export default class TextScan extends React.Component {
 									style={styles.scanBox}
 									placeholder="Type Here"
 									clearButtonMode="while-editing"
+									placeholderTextColor="#F6F6F6"
 									onChangeText={(text) => {
 										if (this.state.clear) {
 											text = "";
@@ -142,7 +143,7 @@ export default class TextScan extends React.Component {
 									onSubmitEditing={this.classifyObject}
 									value={this.state.object}
 								/>
-								<TouchableOpacity onPress={this.classifyObject1}>
+								<TouchableOpacity onPress={this.classifyObject}>
 									<Ionicons
 										name={"search"}
 										size={50}
@@ -176,16 +177,16 @@ const styles = StyleSheet.create({
 	//style for the box where we input
 	scanBox: {
 		marginTop: 100,
-		width: "80%",
+		width: "60%",
 		height: 40,
-		justifyContent: "center",
-		alignSelf: "center",
 		textAlign: "center",
 		borderColor: "#09B44D",
 		borderRadius: 10,
-		backgroundColor: "#F6F6F6",
+		backgroundColor: "#09B44D",
 		borderWidth: 1.5,
 		alignItems: "center",
+		marginLeft: 45,
+		color: "#F6F6F6",
 	},
 	//style for the button we click to search
 	searchButton: {

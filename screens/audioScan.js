@@ -82,10 +82,25 @@ const AudioScan = () => {
 		setInit(true);
 	}
 
-	const buttonLabel = isRecord ? "Stop" : "Speak";
 	const voiceLabel = text ? text : isRecord ? "Say something..." : "";
 
-	const __classify = () => {
+	const _onSpeechStart = () => {
+		//console.log("onSpeechStart");
+		setText("");
+	};
+	const _onSpeechEnd = () => {
+		//console.log("onSpeechEnd");
+	};
+	const _onSpeechResults = (event) => {
+		//console.log("onSpeechResults");
+		setText(event.value[0]);
+	};
+	const _onSpeechError = (event) => {
+		//console.log("_onSpeechError");
+		//console.log(event.error);
+	};
+
+	const _classify = () => {
 		var word = text.toLocaleLowerCase();
 		var facts = [];
 		db.ref(word + "/").on("value", (data) => {
@@ -97,34 +112,22 @@ const AudioScan = () => {
 		setFacts(facts);
 		setIsReal(true);
 	};
-	const _onSpeechStart = () => {
-		console.log("onSpeechStart");
-		setText("");
-	};
-	const _onSpeechEnd = () => {
-		console.log("onSpeechEnd");
-	};
-	const _onSpeechResults = (event) => {
-		console.log("onSpeechResults");
-		setText(event.value[0]);
-	};
-	const _onSpeechError = (event) => {
-		console.log("_onSpeechError");
-		console.log(event.error);
-	};
 
 	const _onRecordVoice = () => {
 		setFacts([]);
-		setIsReal(false);
 		if (isRecord) {
 			Voice.stop();
+			_classify();
 		} else {
 			Voice.start("en-US");
+			setIsReal(false);
 		}
 		setIsRecord(!isRecord);
+		//setIsReal(false);
 	};
 
 	useEffect(() => {
+		//console.log("Here");
 		Voice.onSpeechStart = _onSpeechStart;
 		Voice.onSpeechEnd = _onSpeechEnd;
 		Voice.onSpeechResults = _onSpeechResults;
@@ -184,14 +187,15 @@ const AudioScan = () => {
 						onPress={_onRecordVoice}
 						style={styles.actionButton}
 					>
-						<Ionicons name={"mic"} size={35} style={{ color: "#F6F6F6" }} />
-					</TouchableOpacity>
-					<TouchableOpacity onPress={__classify} style={styles.actionButton}>
-						<Ionicons
-							name={"search-outline"}
-							size={35}
-							style={{ color: "#F6F6F6" }}
-						/>
+						{!isRecord ? (
+							<Ionicons name={"mic"} size={35} style={{ color: "#F6F6F6" }} />
+						) : (
+							<Ionicons
+								name={"mic-off"}
+								size={35}
+								style={{ color: "#F6F6F6" }}
+							/>
+						)}
 					</TouchableOpacity>
 
 					<InfoCard object={text} facts={facts} valid={isReal} />
@@ -209,7 +213,7 @@ const styles = StyleSheet.create({
 		marginTop: 15,
 	},
 	actionButton: {
-		width: "70%",
+		width: "60%",
 		height: 40,
 		margin: 5,
 		justifyContent: "center",
