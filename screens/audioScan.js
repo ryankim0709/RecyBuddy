@@ -111,13 +111,13 @@ const AudioScan = () => {
 		});
 		setFacts(facts);
 		setIsReal(true);
+		Voice.destroy().then(Voice.removeAllListeners);
 	};
 
 	const _onRecordVoice = () => {
 		setFacts([]);
 		if (isRecord) {
 			Voice.stop();
-			_classify();
 		} else {
 			Voice.start("en-US");
 			setIsReal(false);
@@ -182,22 +182,23 @@ const AudioScan = () => {
 		return (
 			<ScrollView style={{ backgroundColor: "#D0F1DD" }}>
 				<View style={styles.container}>
-					<Text style={styles.object}>{voiceLabel}</Text>
-					<TouchableOpacity
-						onPress={_onRecordVoice}
-						style={styles.actionButton}
-					>
-						{!isRecord ? (
+					<View style={{ flexDirection: "row" }}>
+						<TouchableOpacity
+							onPress={_onRecordVoice}
+							style={styles.actionButton}
+						>
 							<Ionicons name={"mic"} size={35} style={{ color: "#F6F6F6" }} />
-						) : (
+						</TouchableOpacity>
+
+						<TouchableOpacity onPress={_classify} style={styles.actionButton}>
 							<Ionicons
-								name={"mic-off"}
+								name={"search-outline"}
 								size={35}
 								style={{ color: "#F6F6F6" }}
 							/>
-						)}
-					</TouchableOpacity>
-
+						</TouchableOpacity>
+					</View>
+					<Text style={styles.object}>{voiceLabel}</Text>
 					<InfoCard object={text} facts={facts} valid={isReal} />
 				</View>
 			</ScrollView>
@@ -210,10 +211,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-		marginTop: 15,
+		marginTop: 20,
 	},
 	actionButton: {
-		width: "60%",
+		width: "45%",
 		height: 40,
 		margin: 5,
 		justifyContent: "center",
@@ -229,8 +230,8 @@ const styles = StyleSheet.create({
 	},
 	object: {
 		fontWeight: "bold",
-		fontSize: 30,
-		color: "#262626",
+		fontSize: 25,
+		color: "#09B44D",
 	},
 	permissionBox: {
 		width: "70%",

@@ -4,16 +4,10 @@ import items from "./list";
 
 export default function InfoModal(props) {
 	var image = props.image;
-	var thing = props.name;
 	var given = props.given;
 	var actual = props.actual;
 	var givenImage = props.givenImage;
 	var actualImage = props.actualImage;
-
-	if (thing.charAt(thing.length - 1) !== "s") {
-		thing = thing + "s";
-		thing = thing.charAt(0).toUpperCase() + thing.slice(1);
-	}
 
 	if (given === actual) {
 		return (
@@ -29,11 +23,21 @@ export default function InfoModal(props) {
 			<View style={styles.container}>
 				<Image
 					source={image}
-					style={{ resizeMode: "cover", width: "60%", height: "35%" }}
+					style={{
+						resizeMode: "cover",
+						width: "80%",
+						height: "35%",
+						borderRadius: 10,
+					}}
 				/>
 				<Image
 					source={actualImage}
-					style={{ width: "80%", height: "70%", marginTop: 10 }}
+					style={{
+						width: "80%",
+						height: "70%",
+						marginTop: 10,
+						borderRadius: 10,
+					}}
 				/>
 			</View>
 		);

@@ -14,7 +14,7 @@ import {
 import * as Progress from "react-native-progress";
 import db from "../config";
 import items from "../list";
-import itemName from "../itemName";
+import answers from "../answers";
 import { Ionicons } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
 import InfoModal from "../infoModal";
@@ -23,12 +23,13 @@ const GameScreen = ({ navigation, route }) => {
 	const pan = useState(new Animated.ValueXY())[0];
 	//item names and names
 	const images = items;
-	const names = itemName;
+
+	const ans = answers;
 	const mode = route.params.mode;
 	//num items to play with and type of game mode
 	var numItems = route.params.num;
 
-	var len = names.length; //number of elements
+	var len = images.length; //number of elements
 	var index1 = 0; //temp index
 	var percent1 = 0; //temp percent
 	var corr = 0; //temp
@@ -36,14 +37,11 @@ const GameScreen = ({ navigation, route }) => {
 	var seen = [];
 	var percentAdd = 1 / numItems;
 
-	var sec = 0;
-	var min = 0;
-	var hour = 0;
-
 	const [correct, setCorrect] = useState(0);
 	const [incorrect, setIncorrect] = useState(0);
 	const [index, setIndex] = useState(Math.floor(Math.random() * 100) % len);
 	index1 = index;
+	seen = [];
 	seen.push(index1);
 	const [percent, setPercent] = useState(0);
 	const [modalIsVisible, setModalIsVisible] = useState(false);
@@ -53,33 +51,26 @@ const GameScreen = ({ navigation, route }) => {
 	const [modalActualImage, setModalActualImage] = useState("");
 	const [given, setGiven] = useState("");
 
-	//return the answer for a given object
-	function check(object) {
-		var word = object;
-		var facts = [];
-		db.ref(word + "/").on("value", (data) => {
-			var useData = data.val();
-			for (var fact in useData) {
-				facts.push(useData[fact]);
-			}
-		});
-		return facts[1];
-	}
-
 	//initialize game
 	function initGame() {
+		console.log("INIT GAME");
 		index1 = 0;
 		percent1 = 0;
 		corr = 0;
 		incorr = 0;
 		seen = [];
-		sec = 0;
-		min = 0;
-		hour = 0;
 
 		setCorrect(0);
 		setIncorrect(0);
+		setModalIndex(0);
+		setModalGivenImage("");
+		setModalActualImage("");
+		setGiven("");
+		setModalIsVisible(false);
+		setIndex(Math.floor(Math.random() * 100) % len);
+
 		setPercent(0);
+		console.log("FINISHED INIT");
 	}
 
 	const [init, setInit] = React.useState(false);
@@ -116,8 +107,7 @@ const GameScreen = ({ navigation, route }) => {
 			},
 			onPanResponderRelease: async () => {
 				// on release
-				var object = names[index1];
-				var answer = check(object);
+				var answer = ans[index1];
 
 				if (answer === "landfill") {
 					setModalActualImage(require("../photos/landfillBin.png"));
@@ -170,11 +160,11 @@ const GameScreen = ({ navigation, route }) => {
 					percent1 = percent1 + percentAdd;
 					setPercent(percent1);
 					if (percent1 > percentAdd * (numItems - 1)) {
+						await initGame();
 						navigation.navigate("Summary Screen", {
 							num: numItems,
 							mode: mode,
 						});
-						initGame();
 					} else {
 						index1 = Math.floor(Math.random() * 100) % len;
 						while (seen.indexOf(index1) >= 0) {
@@ -232,6 +222,7 @@ const GameScreen = ({ navigation, route }) => {
 				<Progress.Bar
 					progress={percent}
 					width={(Dimensions.get("window").width * 4) / 5}
+					height={20}
 					style={{
 						position: "absolute",
 						top: 50,
@@ -248,6 +239,7 @@ const GameScreen = ({ navigation, route }) => {
 							justifyContent: "center",
 							alignSelf: "center",
 							marginBottom: 20,
+							borderRadius: 100,
 							transform: [
 								{
 									translateX: pan.x,
@@ -272,8 +264,7 @@ const GameScreen = ({ navigation, route }) => {
 						<View style={styles.modal}>
 							<InfoModal
 								image={images[modalIndex]}
-								actual={check(names[modalIndex])}
-								name={names[modalIndex]}
+								actual={ans[modalIndex]}
 								given={given}
 								givenImage={modalGivenImage}
 								actualImage={modalActualImage}
@@ -329,6 +320,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		position: "absolute",
 		bottom: 0,
+		borderRadius: 10,
 	},
 	bins: {
 		width: Dimensions.get("window").width / 3,

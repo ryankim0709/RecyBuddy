@@ -12,7 +12,12 @@ import {
 export default function HomeScreen({ navigation }) {
 	return (
 		<ScrollView style={{ backgroundColor: "#D0F1DD" }}>
-			<View style={styles.contianer}></View>
+			<View style={styles.container}>
+				<Image
+					source={require("../photos/homeLight.png")}
+					style={{ alignSelf: "center", marginTop: "20%" }}
+				/>
+			</View>
 		</ScrollView>
 	);
 }
@@ -21,8 +26,10 @@ const styles = StyleSheet.create({
 	contianer: {
 		flex: 1,
 		alignItems: "center",
+		alignSelf: "center",
 		backgroundColor: "#D0F1DD",
 		marginTop: 10,
+		justifyContent: "center",
 	},
 	gameButton: {
 		width: (Dimensions.get("window").width * 7) / 10,

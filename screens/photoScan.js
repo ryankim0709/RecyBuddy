@@ -134,7 +134,6 @@ export default function PhotoScan() {
 			try {
 				const result = await callGoogleVisionAsync(base64);
 				await setStatus(result);
-				classify();
 			} catch (error) {
 				setStatus(`Error: ${error.message}`);
 			}
@@ -142,7 +141,7 @@ export default function PhotoScan() {
 			setImage(null);
 			setStatus(null);
 		}
-		await setIsReal(false);
+		setIsReal(false);
 	};
 
 	if (!init) {
@@ -173,24 +172,29 @@ export default function PhotoScan() {
 					</View>
 				) : (
 					<>
-						<View style={styles.container}>
-							<TouchableOpacity
-								onPress={takePictureAsync}
-								style={styles.actionButton}
-							>
-								<Ionicons
-									name={"camera"}
-									size={35}
-									style={{ color: "#F6F6F6" }}
-								/>
-							</TouchableOpacity>
-							<TouchableOpacity onPress={classify} style={styles.actionButton}>
-								<Ionicons
-									name={"search-outline"}
-									size={35}
-									style={{ color: "#F6F6F6" }}
-								/>
-							</TouchableOpacity>
+						<View style={[styles.container, { marginTop: 20 }]}>
+							<View style={{ flexDirection: "row" }}>
+								<TouchableOpacity
+									onPress={takePictureAsync}
+									style={styles.actionButton}
+								>
+									<Ionicons
+										name={"camera"}
+										size={35}
+										style={{ color: "#F6F6F6" }}
+									/>
+								</TouchableOpacity>
+								<TouchableOpacity
+									onPress={classify}
+									style={styles.actionButton}
+								>
+									<Ionicons
+										name={"search-outline"}
+										size={35}
+										style={{ color: "#F6F6F6" }}
+									/>
+								</TouchableOpacity>
+							</View>
 							{image && <Image style={styles.image} source={{ uri: image }} />}
 							{status && <Text style={styles.object}>{status}</Text>}
 
@@ -207,18 +211,18 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		alignItems: "center",
-		marginTop: 10,
 	},
 	image: {
-		width: 200,
+		width: 250,
 		height: 200,
 		borderRadius: 10,
+		marginTop: 15,
 	},
 	text: {
 		margin: 5,
 	},
 	actionButton: {
-		width: "60%",
+		width: "45%",
 		height: 40,
 		margin: 5,
 		justifyContent: "center",
@@ -234,8 +238,8 @@ const styles = StyleSheet.create({
 	},
 	object: {
 		fontWeight: "bold",
-		fontSize: 30,
-		color: "#262626",
+		fontSize: 25,
+		color: "#09B44D",
 	},
 	permissions: {
 		width: "70%",

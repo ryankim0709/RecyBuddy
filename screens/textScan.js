@@ -126,6 +126,7 @@ export default class TextScan extends React.Component {
 									flexDirection: "row",
 									alignContent: "center",
 									justifyContent: "center",
+									marginTop: 20,
 								}}
 							>
 								<TextInput
@@ -147,7 +148,7 @@ export default class TextScan extends React.Component {
 									<Ionicons
 										name={"search"}
 										size={50}
-										style={{ marginTop: 100, color: "#09B44D" }}
+										style={{ color: "#09B44D" }}
 									/>
 								</TouchableOpacity>
 							</View>
@@ -176,7 +177,6 @@ const styles = StyleSheet.create({
 	},
 	//style for the box where we input
 	scanBox: {
-		marginTop: 100,
 		width: "60%",
 		height: 40,
 		textAlign: "center",
@@ -187,6 +187,8 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		marginLeft: 45,
 		color: "#F6F6F6",
+		fontSize: 25,
+		fontWeight: "bold",
 	},
 	//style for the button we click to search
 	searchButton: {

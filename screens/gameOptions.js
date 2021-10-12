@@ -9,9 +9,8 @@ import {
 import WheelPicker from "react-native-wheely";
 
 export default function gameOptions({ navigation, route }) {
-	const [times, setTimes] = useState(10);
 	const [selected, setSelected] = useState(0);
-	const choices = [1, 5, 10, 13];
+	const choices = [1, 2, 5, 10, 13];
 	var mode = route.params.mode;
 
 	return (

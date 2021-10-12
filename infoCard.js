@@ -12,17 +12,15 @@ export default class InfoCard extends React.Component {
 		if (object == "--" || object == "" || object == null || valid === false) {
 			return <View style={styles.container}></View>;
 		} else {
-			if (typeof facts[1] === "undefined") {
+			if (facts[0] === undefined) {
 				return (
 					<View style={styles.container}>
 						<Text style={styles.text}>NOT FOUND</Text>
 					</View>
 				);
 			} else {
-				var type = facts[1];
-				var learnMore = facts[0];
-				var message = "black bin";
-				var path = require("./photos/landfillBin.png");
+				var type = facts[0];
+				var im = facts[1];
 
 				if (type == "compostable") {
 					path = require("./photos/compostBin.png");
