@@ -52,8 +52,7 @@ const GameScreen = ({ navigation, route }) => {
 	const [given, setGiven] = useState("");
 
 	//initialize game
-	function initGame() {
-		console.log("INIT GAME");
+	async function initGame() {
 		index1 = 0;
 		percent1 = 0;
 		corr = 0;
@@ -68,9 +67,9 @@ const GameScreen = ({ navigation, route }) => {
 		setGiven("");
 		setModalIsVisible(false);
 		setIndex(Math.floor(Math.random() * 100) % len);
+		seen.push(index);
 
 		setPercent(0);
-		console.log("FINISHED INIT");
 	}
 
 	const [init, setInit] = React.useState(false);
@@ -170,9 +169,9 @@ const GameScreen = ({ navigation, route }) => {
 						while (seen.indexOf(index1) >= 0) {
 							index1 = Math.floor(Math.random() * 100) % len;
 						}
-						seen.push(index1);
 						console.log("SEEN: " + seen);
 						console.log("INDEX: " + index1);
+						seen.push(index1);
 						setIndex(index1);
 					}
 
@@ -231,7 +230,7 @@ const GameScreen = ({ navigation, route }) => {
 					color={"#09B44D"}
 				/>
 				<Animated.Image
-					source={images[index]}
+					source={images[index1]}
 					style={[
 						{
 							width: 150,

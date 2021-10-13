@@ -16,7 +16,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 const Drawer = createDrawerNavigator();
 
-const DrawerNavigator = () => {
+const DrawerNavigator = ({ navigation }) => {
 	return (
 		<Drawer.Navigator
 			screenOptions={{

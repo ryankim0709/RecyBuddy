@@ -48,6 +48,7 @@ export default function StackNavigator() {
 						headerTitleStyle: { color: "#F6F6F6", fontWeight: "bold" },
 						headerBackTitleStyle: { color: "#F6F6F6", fontWeight: "bold" },
 						headerLeft: null,
+						gestureEnabled: false,
 					}}
 				/>
 			</Stack.Navigator>

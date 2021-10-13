@@ -60,7 +60,7 @@ const items = [
 	require("./imagePhotos/yardwastecompost.jpeg"),
 	require("./imagePhotos/leaves.jpeg"),
 	require("./imagePhotos/flower.jpeg"),
-	require("./imagePhotos/branch.jpeg"),
+	require("./imagePhotos/branch.png"),
 ];
 
 export default items;
