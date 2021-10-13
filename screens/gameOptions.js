@@ -1,54 +1,71 @@
-import React, {useState} from 'react'
-import{View, Text, StyleSheet, TouchableOpacity} from 'react-native'
-import ScrollPicker from 'react-native-wheel-scrollview-picker';
-import WheelPicker from 'react-native-wheely';
+import React, { useState } from "react";
+import {
+	View,
+	Text,
+	StyleSheet,
+	TouchableOpacity,
+	ScrollView,
+} from "react-native";
+import WheelPicker from "react-native-wheely";
 
-export default function gameOptions({navigation, route}) {
-    const[times, setTimes] = useState(10)
-    const [selected, setSelected] = useState(0);
-    const choices = [1,5,10,15]
-    var type = route.params.type
-    return(
-        <View style = {styles.container}>
-            <View>
-                <Text style = {{paddingTop:20}}>Choose the number of items you would like to play with</Text>
-                <Text>{choices[selected]}</Text>
-            </View>
-            <View>
-            <WheelPicker 
-                options={[1,5,10,15]}
-                selected = {selected}
-                onChange={(num) => setSelected(num)}
-            />
-            </View>
+export default function gameOptions({ navigation, route }) {
+	const [selected, setSelected] = useState(0);
+	const choices = [1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60];
+	var mode = route.params.mode;
 
-            <TouchableOpacity  style = {styles.navigateButton} onPress = {() => {
-                console.log("asdf")
-                navigation.navigate("Game", {num: choices[selected], type: type})
-                }}>
-                <Text style = {styles.navigateText}>Play {type} game with {choices[selected]} items</Text>
-            </TouchableOpacity>
-        </View>
-        
-    )
+	return (
+		<View style={styles.container}>
+			<View>
+				<WheelPicker
+					options={choices}
+					selected={selected}
+					itemStyle={{ backgroundColor: "#09B44D" }}
+					itemTextStyle={{ color: "#F6F6F6" }}
+					onChange={(num) => setSelected(num)}
+					containerStyle={{}}
+				/>
+			</View>
+
+			<TouchableOpacity
+				style={styles.navigateButton}
+				onPress={() => {
+					navigation.navigate("Game", { num: choices[selected], mode: mode });
+				}}
+			>
+				<Text style={styles.navigateText}>
+					Play with {choices[selected]} items
+				</Text>
+			</TouchableOpacity>
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex:1,
-        alignItems:'center'
-    },
-    navigateButton: {
-        borderRadius:10,
-        backgroundColor: "#95d5b2",
-        width:"80%",
-        textAlign:'center',
-        alignItems:'center',
-        justifyContent:'center'
-    },
-    navigateText: {
-        fontSize:30,
-        fontWeight:'bold',
-        textAlign:'center'
-    }
-})
+	container: {
+		flex: 1,
+		alignItems: "center",
+		backgroundColor: "#D0F1DD",
+		justifyContent: "center",
+	},
+	navigateButton: {
+		borderRadius: 10,
+		backgroundColor: "#09B44D",
+		width: "80%",
+		textAlign: "center",
+		alignItems: "center",
+		justifyContent: "center",
+		height: 40,
+	},
+	navigateText: {
+		fontSize: 25,
+		fontWeight: "bold",
+		textAlign: "center",
+		color: "#F6F6F6",
+	},
+	text: {
+		fontSize: 25,
+		fontWeight: "bold",
+		textAlign: "center",
+		color: "#262626",
+	},
+});

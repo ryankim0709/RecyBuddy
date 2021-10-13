@@ -1,74 +1,59 @@
-import React from 'react'
-import { View, Text,Image, StyleSheet,Dimensions } from 'react-native'
+import React from "react";
+import { View, Text, Image, StyleSheet, Dimensions } from "react-native";
 
 export default class InfoCard extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-    render() {
-        var object = this.props.object
-        var facts = this.props.facts
-        console.log("Object: "+object)
-        console.log("Facts: "+facts)
-        if(object == "--" || object == "") {
-            return(
-                <View style = {styles.container}>
-                    
-                </View>
-            )
-        }
+	constructor(props) {
+		super(props);
+	}
+	render() {
+		var object = this.props.object;
+		var facts = this.props.facts;
+		var valid = this.props.valid;
+		if (object == "--" || object == "" || object == null || valid === false) {
+			return <View style={styles.container}></View>;
+		} else {
+			if (facts[0] === undefined) {
+				return (
+					<View style={styles.container}>
+						<Text style={styles.text}>NOT FOUND</Text>
+					</View>
+				);
+			} else {
+				var type = facts[0];
+				var im = facts[1];
 
-        else {
-            //console.log("OBJECT: "+object)
-            
-            if((typeof(facts[1]) === 'undefined')) {
-                return(
-                    <View style = {styles.container}>
-                        <Text>NOT FOUND</Text>
-                    </View>
-                )
-            }
-            var type = facts[1]
-            var learnMore = facts[0]
-            //console.log("type: "+type)
-            var path = require('./photos/qmark.jpg')
-            if(type == "compostable") {
-                path = require('./photos/compostSymbol.png')
-                
-            }
-            else if(type == "recyclable") {
-                path = require('./photos/recycleSymbol.jpg')
-            }
-            
-            return(
-                <View style = {styles.container}>
-                    <Image source = {path} style = {styles.symbol}/>
-                    <Text style = {styles.learnText}>Your {this.props.object} is {this.props.facts[1]}</Text>
-                    <Text style = {styles.learnText}>Put your {this.props.object} in the </Text>
-                    <Text></Text>
-                    <Text style = {{fontSize:20}}></Text>
-                </View>
-            )
+				if (type == "compostable") {
+					path = require("./photos/compostBin.png");
+					message = "green bin";
+				} else if (type == "recyclable") {
+					path = require("./photos/recycleBin.png");
+					message = "blue bin";
+				}
 
-        }
-    }
+				return (
+					<View style={styles.container}>
+						<Image source={path} style={styles.symbol} />
+					</View>
+				);
+			}
+		}
+	}
 }
 
 const styles = StyleSheet.create({
-    container: {
-        //width: Dimensions.get('window').width * 4/5,
-        //height: Dimensions.get('window').height * 2/5,
-        //borderColor:'black',
-        //borderWidth:10,
-        alignSelf:'center'
-    },
-    symbol: {
-        width:200,
-        height:200,
-        alignSelf:'center'
-    },
-    learnText: {
-        textAlign:'center',
-        fontSize:20
-    }
-})
+	container: {
+		alignSelf: "center",
+		marginTop: 10,
+	},
+	symbol: {
+		width: 250,
+		height: 250,
+		alignSelf: "center",
+		borderRadius: 10,
+	},
+	text: {
+		fontWeight: "bold",
+		fontSize: 25,
+		color: "#262626",
+	},
+});

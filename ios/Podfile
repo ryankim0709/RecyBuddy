@@ -4,11 +4,15 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '11.0'
 
-target 'ClimaCool' do
+target 'RecyCool' do
   use_unimodules!
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
+
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-Microphone', :path => "#{permissions_path}/Microphone"
+  pod 'Permission-SpeechRecognition', :path => "#{permissions_path}/SpeechRecognition"
 
   # Uncomment to opt-in to using Flipper
   #

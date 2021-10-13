@@ -6,18 +6,24 @@ import PhotoScan from "../screens/photoScan";
 import React from "react";
 import {Image} from 'react-native'
 import { Ionicons } from "@expo/vector-icons"; 
+import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
+import {View} from 'react-native'
 
 export default class ScanTabs extends React.Component {
     render() {
         return(
-            <AppContainer/>
+            //<AppContainer/>
+            <AppCont/>
         )
     }
 }
 const TabNavigator = createBottomTabNavigator({
-    Audio: {screen:AudioScan},
     Text: {screen:TextScan},
-    Photo: {screen:PhotoScan}
+    Photo: {screen:PhotoScan},
+    Audio: {screen:AudioScan}
+  },
+  {
+    initialRouteName:'Text'
   },
    {
      defaultNavigationOptions: ({navigation})=>({
@@ -31,7 +37,6 @@ const TabNavigator = createBottomTabNavigator({
                 size = {30}
                 />
           )
-          
         }
         else if(routeName === "Text"){
           return(
@@ -49,9 +54,59 @@ const TabNavigator = createBottomTabNavigator({
                 />
             )
         }
-      }
+      },
     })
   }
-  );
+);
 
 const AppContainer = createAppContainer(TabNavigator)
+
+const MetTab = createMaterialBottomTabNavigator(
+  {
+    Text: {
+      screen:TextScan,
+      navigationOptions: {
+        tabBarIcon: ({tintColor}) => (
+          <View>
+            <Ionicons name = {'text'} size = {25}/>
+          </View>
+        ),
+        activeColor: "#09B44D",
+        size: 20
+      },
+    },
+    Photo: {
+      screen: PhotoScan,
+      navigationOptions: {
+        tabBarIcon: ({tintColor}) => (
+          <View>
+            <Ionicons name = {'camera'} size = {25}/>
+          </View>
+        ),
+        activeColor: "#09B44D",
+        
+      }
+    },
+    Audio: {
+      screen:AudioScan,
+      navigationOptions: {
+        tabBarIcon: ({tintColor}) => (
+          <View>
+            <Ionicons name = {'mic'} size = {25}/>
+          </View>
+        ),
+        activeColor: "#09B44D"
+      }
+    }
+  },
+  {
+    barStyle: {backgroundColor: "#D0F1DD", height: "10%"},
+  },
+  {
+    BottomTabnavigatorConfig: {
+      style: {fontSize: 20}
+    }
+  }
+)
+
+const AppCont = createAppContainer(MetTab)
