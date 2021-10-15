@@ -110,10 +110,15 @@ const AudioScan = () => {
 		});
 		setFacts(facts);
 		setIsReal(true);
-		Voice.destroy().then(Voice.removeAllListeners);
+		if (isRecord) {
+			Voice.stop();
+			setIsRecord(false);
+			Voice.destroy().then(Voice.removeAllListeners);
+		}
 	};
 
 	const _onRecordVoice = () => {
+		setIsReal(false);
 		setFacts([]);
 		if (isRecord) {
 			Voice.stop();
