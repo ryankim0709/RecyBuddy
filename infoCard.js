@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, Dimensions } from "react-native";
+import db from "./config";
 
 export default class InfoCard extends React.Component {
 	constructor(props) {
@@ -10,24 +11,37 @@ export default class InfoCard extends React.Component {
 		var facts = this.props.facts;
 		var valid = this.props.valid;
 		if (object == "--" || object == "" || object == null || valid === false) {
+			db.ref("Reports").remove();
 			return <View style={styles.container}></View>;
 		} else {
 			if (facts[0] === undefined) {
 				return (
 					<View style={styles.container}>
-						<Text style={styles.text}>NOT FOUND</Text>
+						<Image
+							source={require("./photos/oops.png")}
+							style={{
+								width: 200,
+								height: 200,
+								borderRadius: 10,
+							}}
+						/>
+						<Text style={styles.text}>
+							Sorry! {object} is not in our database! The creater has been
+							notified and will review "{object}"
+						</Text>
 					</View>
 				);
 			} else {
 				var type = facts[0];
-				var im = facts[1];
 
-				if (type == "compostable") {
+				if (type == "C") {
 					path = require("./photos/compostBin.png");
-					message = "green bin";
-				} else if (type == "recyclable") {
+				} else if (type == "R") {
 					path = require("./photos/recycleBin.png");
-					message = "blue bin";
+				} else if (type == "H") {
+					path = require("./photos/hazard.jpg");
+				} else {
+					path = require("./photos/landfillBin.png");
 				}
 
 				return (
@@ -44,6 +58,7 @@ const styles = StyleSheet.create({
 	container: {
 		alignSelf: "center",
 		marginTop: 10,
+		alignItems: "center",
 	},
 	symbol: {
 		width: 250,
@@ -55,5 +70,6 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		fontSize: 25,
 		color: "#262626",
+		textAlign: "center",
 	},
 });

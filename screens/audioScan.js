@@ -13,7 +13,6 @@ import {
 import { check, PERMISSIONS, RESULTS } from "react-native-permissions";
 import Voice from "react-native-voice";
 import InfoCard from "../infoCard";
-import { Audio } from "expo-av";
 import db from "../config";
 import { Ionicons } from "@expo/vector-icons";
 

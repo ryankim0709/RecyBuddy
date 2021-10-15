@@ -11,7 +11,14 @@ import {
 
 export default function HomeScreen({ navigation }) {
 	return (
-		<ScrollView style={{ backgroundColor: "#D0F1DD" }}>
+		<ScrollView
+			style={{
+				backgroundColor: "#D0F1DD",
+				borderRadius: 10,
+				borderColor: "black",
+				flex: 1,
+			}}
+		>
 			<View style={styles.container}>
 				<View style={styles.navContainer}>
 					<TouchableOpacity
@@ -30,8 +37,8 @@ export default function HomeScreen({ navigation }) {
 					</TouchableOpacity>
 				</View>
 				<Image
-					source={require("../photos/homeLight.png")}
-					style={{ alignSelf: "center", marginTop: "20%" }}
+					source={require("../photos/homeBold.png")}
+					style={{ alignSelf: "center", marginTop: "20%", width: "100%" }}
 				/>
 			</View>
 		</ScrollView>
