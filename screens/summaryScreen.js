@@ -10,6 +10,9 @@ import {
 export default function SummaryScreen({ navigation, route }) {
 	const numItems = route.params.num;
 	const mode = route.params.mode;
+	const corr = route.params.correct;
+	const incorr = route.params.incorrect;
+	console.log(numItems + " " + incorr);
 
 	return (
 		<ScrollView
@@ -35,6 +38,11 @@ export default function SummaryScreen({ navigation, route }) {
 					<Text style={styles.againText}>Go Home</Text>
 				</TouchableOpacity>
 			</View>
+			<Text style={styles.infoText}>Correct: {corr}</Text>
+			<Text style={styles.infoText}>Incorrect: {incorr}</Text>
+			<Text style={styles.infoText}>
+				Accuracy: {(corr / (corr + incorr)) * 100}%
+			</Text>
 		</ScrollView>
 	);
 }
@@ -68,5 +76,12 @@ const styles = StyleSheet.create({
 		marginTop: 10,
 		alignItems: "center",
 		alignSelf: "center",
+	},
+	infoText: {
+		textAlign: "center",
+		marginTop: 10,
+		fontWeight: "bold",
+		fontSize: 25,
+		color: "#262626",
 	},
 });

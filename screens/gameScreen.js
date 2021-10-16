@@ -159,18 +159,21 @@ const GameScreen = ({ navigation, route }) => {
 					percent1 = percent1 + percentAdd;
 					setPercent(percent1);
 					if (percent1 > percentAdd * (numItems - 1)) {
+						console.log("CORRECT: " + corr + " INCORRECT: " + incorr);
+						var a = corr;
+						var b = incorr;
 						await initGame();
 						navigation.navigate("Summary Screen", {
 							num: numItems,
 							mode: mode,
+							correct: a,
+							incorrect: b,
 						});
 					} else {
 						index1 = Math.floor(Math.random() * 100) % len;
 						while (seen.indexOf(index1) >= 0) {
 							index1 = Math.floor(Math.random() * 100) % len;
 						}
-						console.log("SEEN: " + seen);
-						console.log("INDEX: " + index1);
 						seen.push(index1);
 						setIndex(index1);
 					}

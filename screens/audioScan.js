@@ -110,14 +110,15 @@ const AudioScan = () => {
 		});
 		setFacts(facts);
 		setIsReal(true);
+
 		if (isRecord) {
 			Voice.stop();
 			setIsRecord(false);
-			Voice.destroy().then(Voice.removeAllListeners);
 		}
 	};
 
 	const _onRecordVoice = () => {
+		console.log(isRecord);
 		setIsReal(false);
 		setFacts([]);
 		if (isRecord) {
@@ -191,7 +192,11 @@ const AudioScan = () => {
 							onPress={_onRecordVoice}
 							style={styles.actionButton}
 						>
-							<Ionicons name={"mic"} size={35} style={{ color: "#F6F6F6" }} />
+							<Ionicons
+								name={isRecord ? "mic-off" : "mic"}
+								size={35}
+								style={{ color: "#F6F6F6" }}
+							/>
 						</TouchableOpacity>
 
 						<TouchableOpacity onPress={_classify} style={styles.actionButton}>
