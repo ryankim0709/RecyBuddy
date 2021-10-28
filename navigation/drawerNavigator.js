@@ -1,18 +1,11 @@
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import TextScan from "../screens/textScan";
-import PhotoScan from "../screens/photoScan";
-import AudioScan from "../screens/audioScan";
-import GameScreen from "../screens/gameScreen";
 import HomeScreen from "../screens/home";
 import ScanTabs from "./bottomtabNavigator";
-import gameOptions from "../screens/gameOptions";
 import gameStart from "../screens/gameStart";
-import about from "../screens/about";
-import { createBottomTabNavigator } from "react-navigation-tabs";
-import { createAppContainer } from "react-navigation";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { Dimensions } from "react-native";
 
 const Drawer = createDrawerNavigator();
 
@@ -39,7 +32,7 @@ const DrawerNavigator = ({ navigation }) => {
 					headerTintColor: "#F6F6F6",
 					headerTitleStyle: {
 						fontWeight: "bold",
-						fontSize: 20,
+						fontSize: (Dimensions.get("window").width * 10) / 207,
 					},
 					drawerIcon: ({ focused, size }) => (
 						<Ionicons
@@ -60,7 +53,7 @@ const DrawerNavigator = ({ navigation }) => {
 					headerTintColor: "#F6F6F6",
 					headerTitleStyle: {
 						fontWeight: "bold",
-						fontSize: 20,
+						fontSize: (Dimensions.get("window").width * 10) / 207,
 					},
 					drawerIcon: ({ focused, size }) => (
 						<Ionicons
@@ -81,32 +74,11 @@ const DrawerNavigator = ({ navigation }) => {
 					headerTintColor: "#F6F6F6",
 					headerTitleStyle: {
 						fontWeight: "bold",
-						fontSize: 20,
+						fontSize: (Dimensions.get("window").width * 10) / 207,
 					},
 					drawerIcon: ({ focused, size }) => (
 						<Ionicons
 							name="game-controller"
-							size={size}
-							color={focused ? "#F6F6F6" : "#262626"}
-						/>
-					),
-				}}
-			/>
-			<Drawer.Screen
-				name="About"
-				component={about}
-				options={{
-					headerStyle: {
-						backgroundColor: "#09B44D",
-					},
-					headerTintColor: "#F6F6F6",
-					headerTitleStyle: {
-						fontWeight: "bold",
-						fontSize: 20,
-					},
-					drawerIcon: ({ focused, size }) => (
-						<Ionicons
-							name="information"
 							size={size}
 							color={focused ? "#F6F6F6" : "#262626"}
 						/>
@@ -128,10 +100,10 @@ const styles = StyleSheet.create({
 	},
 	item: {
 		fontWeight: "bold",
-		fontSize: 15,
+		fontSize: (Dimensions.get("window").width * 5) / 138,
 	},
 	text: {
 		fontWeight: "bold",
-		fontSize: 18,
+		fontSize: (Dimensions.get("window").width * 1) / 23,
 	},
 });
