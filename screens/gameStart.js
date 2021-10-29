@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-	View,
 	Text,
 	TouchableOpacity,
 	StyleSheet,
@@ -43,7 +42,7 @@ const styles = StyleSheet.create({
 	contianer: {
 		flex: 1,
 		alignItems: "center",
-		marginTop: 10,
+		marginTop: (Dimensions.get("window").width * 5) / 368,
 		justifyContent: "center",
 	},
 	gameButton: {
@@ -52,13 +51,13 @@ const styles = StyleSheet.create({
 		backgroundColor: "#09B44D",
 		justifyContent: "center",
 		borderRadius: 10,
-		marginTop: 10,
+		marginTop: (Dimensions.get("window").height * 5) / 368,
 	},
 	gameText: {
 		textAlign: "center",
 		fontWeight: "bold",
 		alignItems: "center",
-		fontSize: 30,
+		fontSize: (Dimensions.get("window").width * 5) / 69,
 		color: "#F6F6F6",
 	},
 });

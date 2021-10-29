@@ -159,18 +159,21 @@ const GameScreen = ({ navigation, route }) => {
 					percent1 = percent1 + percentAdd;
 					setPercent(percent1);
 					if (percent1 > percentAdd * (numItems - 1)) {
+						console.log("CORRECT: " + corr + " INCORRECT: " + incorr);
+						var a = corr;
+						var b = incorr;
 						await initGame();
 						navigation.navigate("Summary Screen", {
 							num: numItems,
 							mode: mode,
+							correct: a,
+							incorrect: b,
 						});
 					} else {
 						index1 = Math.floor(Math.random() * 100) % len;
 						while (seen.indexOf(index1) >= 0) {
 							index1 = Math.floor(Math.random() * 100) % len;
 						}
-						console.log("SEEN: " + seen);
-						console.log("INDEX: " + index1);
 						seen.push(index1);
 						setIndex(index1);
 					}
@@ -221,10 +224,10 @@ const GameScreen = ({ navigation, route }) => {
 				<Progress.Bar
 					progress={percent}
 					width={(Dimensions.get("window").width * 4) / 5}
-					height={20}
+					height={(Dimensions.get("window").width * 10) / 207}
 					style={{
 						position: "absolute",
-						top: 50,
+						top: (Dimensions.get("window").height * 25) / 368,
 						borderColor: "#09B44D",
 					}}
 					color={"#09B44D"}
@@ -233,11 +236,11 @@ const GameScreen = ({ navigation, route }) => {
 					source={images[index1]}
 					style={[
 						{
-							width: 150,
-							height: 150,
+							width: (Dimensions.get("window").width * 25) / 69,
+							height: (Dimensions.get("window").height * 75) / 368,
 							justifyContent: "center",
 							alignSelf: "center",
-							marginBottom: 20,
+							marginBottom: (Dimensions.get("window").height * 5) / 184,
 							borderRadius: 100,
 							transform: [
 								{
@@ -253,7 +256,6 @@ const GameScreen = ({ navigation, route }) => {
 					animationType={"slide"}
 					transparent={true}
 					visible={modalIsVisible}
-					onRequestClose={() => {}}
 				>
 					<TouchableWithoutFeedback
 						onPress={() => {
@@ -274,13 +276,17 @@ const GameScreen = ({ navigation, route }) => {
 				<View style={styles.count}>
 					<Ionicons
 						name={"checkmark-outline"}
-						size={55}
+						size={(Dimensions.get("window").width * 55) / 414}
 						style={{ color: "#09B44D" }}
 					/>
 					<Text style={[styles.countText, { color: "#09B44D" }]}>
 						: {correct}
 					</Text>
-					<Ionicons name={"close"} size={55} style={{ color: "red" }} />
+					<Ionicons
+						name={"close"}
+						size={(Dimensions.get("window").width * 55) / 414}
+						style={{ color: "red" }}
+					/>
 					<Text style={[styles.countText, { color: "red" }]}>
 						: {incorrect}
 					</Text>
@@ -328,12 +334,12 @@ const styles = StyleSheet.create({
 	},
 	count: {
 		flexDirection: "row",
-		marginTop: 10,
+		marginTop: (Dimensions.get("window").height * 5) / 368,
 	},
 	countText: {
-		fontSize: 40,
+		fontSize: (Dimensions.get("window").width * 20) / 207,
 		fontWeight: "600",
-		marginTop: 5,
+		marginTop: (Dimensions.get("window").height * 5) / 736,
 	},
 	modal: {
 		flex: 1,

@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "b-2.png",
+      "filename" : "RecyBuddy_bold-2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "b-1.png",
+      "filename" : "RecyBuddy_bold-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "b.png",
+      "filename" : "RecyBuddy_bold.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

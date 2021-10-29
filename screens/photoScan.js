@@ -10,6 +10,7 @@ import {
 	Alert,
 	ScrollView,
 	TouchableOpacity,
+	Dimensions,
 	ActivityIndicator,
 } from "react-native";
 import db from "../config";
@@ -77,6 +78,7 @@ export default function PhotoScan() {
 
 	async function cameraReady() {
 		let permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
 		permissionResult = permissionResult.granted === true;
 		setPermissions(permissionResult);
 		return permissionResult;
@@ -124,6 +126,7 @@ export default function PhotoScan() {
 	};
 
 	const takePictureAsync = async () => {
+		setIsReal(false);
 		const { cancelled, uri, base64 } = await ImagePicker.launchCameraAsync({
 			base64: true,
 		});
@@ -143,7 +146,6 @@ export default function PhotoScan() {
 		}
 		setIsReal(false);
 	};
-
 	if (!init) {
 		return (
 			<ScrollView style={{ backgroundColor: "#DF1DD" }}>
@@ -165,14 +167,24 @@ export default function PhotoScan() {
 							onPress={askPermissionsAsync}
 							style={styles.permissions}
 						>
-							<Text style={[styles.permissionText, { marginTop: 15 }]}>
+							<Text
+								style={[
+									styles.permissionText,
+									{ marginTop: (Dimensions.get("window").height * 15) / 736 },
+								]}
+							>
 								Enable camera permissions
 							</Text>
 						</TouchableOpacity>
 					</View>
 				) : (
 					<>
-						<View style={[styles.container, { marginTop: 20 }]}>
+						<View
+							style={[
+								styles.container,
+								{ marginTop: (Dimensions.get("window").height * 5) / 184 },
+							]}
+						>
 							<View style={{ flexDirection: "row" }}>
 								<TouchableOpacity
 									onPress={takePictureAsync}
@@ -180,7 +192,7 @@ export default function PhotoScan() {
 								>
 									<Ionicons
 										name={"camera"}
-										size={35}
+										size={(Dimensions.get("window").width * 35) / 414}
 										style={{ color: "#F6F6F6" }}
 									/>
 								</TouchableOpacity>
@@ -190,15 +202,16 @@ export default function PhotoScan() {
 								>
 									<Ionicons
 										name={"search-outline"}
-										size={35}
+										size={(Dimensions.get("window").width * 35) / 414}
 										style={{ color: "#F6F6F6" }}
 									/>
 								</TouchableOpacity>
 							</View>
 							{image && <Image style={styles.image} source={{ uri: image }} />}
 							{status && <Text style={styles.object}>{status}</Text>}
-
-							<InfoCard object={status} facts={facts} valid={isReal} />
+							<View style={{ justifyContent: "center", alignSelf: "center" }}>
+								<InfoCard object={status} facts={facts} valid={isReal} />
+							</View>
 						</View>
 					</>
 				)}
@@ -213,18 +226,18 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	image: {
-		width: 250,
-		height: 200,
+		width: (Dimensions.get("window").width * 125) / 207,
+		height: (Dimensions.get("window").height * 25) / 92,
 		borderRadius: 10,
-		marginTop: 15,
+		marginTop: (Dimensions.get("window").height * 5) / 736,
 	},
 	text: {
-		margin: 5,
+		margin: (Dimensions.get("window").width * 5) / 414,
 	},
 	actionButton: {
 		width: "45%",
-		height: 40,
-		margin: 5,
+		height: (Dimensions.get("window").height * 5) / 92,
+		margin: (Dimensions.get("window").width * 5) / 414,
 		justifyContent: "center",
 		backgroundColor: "#09B44D",
 		borderRadius: 10,
@@ -234,23 +247,23 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		color: "#F6F6F6",
 		fontWeight: "bold",
-		fontSize: 25,
+		fontSize: (Dimensions.get("window").width * 25) / 414,
 	},
 	object: {
 		fontWeight: "bold",
-		fontSize: 25,
+		fontSize: (Dimensions.get("window").width * 25) / 414,
 		color: "#09B44D",
 	},
 	permissions: {
 		width: "70%",
-		height: 50,
+		height: (Dimensions.get("window").width * 25) / 368,
 		backgroundColor: "#09B44D",
 		alignSelf: "center",
 		borderRadius: 10,
 		textAlign: "center",
 	},
 	permissionText: {
-		fontSize: 20,
+		fontSize: (Dimensions.get("window").width * 10) / 207,
 		fontWeight: "bold",
 		color: "#F6F6F6",
 		textAlign: "center",

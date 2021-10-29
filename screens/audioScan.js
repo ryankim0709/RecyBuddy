@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react";
 import {
 	Text,
-	Button,
 	View,
 	ScrollView,
 	ActivityIndicator,
 	Alert,
 	Linking,
 	TouchableOpacity,
+	Dimensions,
 	StyleSheet,
 } from "react-native";
-import { check, PERMISSIONS, RESULTS } from "react-native-permissions";
+import {
+	check,
+	openSettings,
+	PERMISSIONS,
+	RESULTS,
+} from "react-native-permissions";
 import Voice from "react-native-voice";
 import InfoCard from "../infoCard";
-import { Audio } from "expo-av";
 import db from "../config";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -67,7 +71,62 @@ const AudioScan = () => {
 		}
 	});
 
+	const voiceLabel = text ? text : isRecord ? "Say something..." : "";
+
+	const _onSpeechStart = () => {
+		setText("");
+	};
+	const _onSpeechEnd = () => {};
+	const _onSpeechResults = (event) => {
+		setText(event.value[0]);
+	};
+	const _onSpeechError = (event) => {};
+
+	const _classify = () => {
+		var word = text.toLocaleLowerCase();
+		var facts = [];
+		db.ref(word + "/").on("value", (data) => {
+			var useData = data.val();
+			for (var fact in useData) {
+				facts.push(useData[fact]);
+			}
+		});
+		setFacts(facts);
+		setIsReal(true);
+
+		if (isRecord) {
+			Voice.stop();
+			setIsRecord(false);
+		}
+	};
+
+	const _onRecordVoice = () => {
+		setIsReal(false);
+		setFacts([]);
+		if (isRecord) {
+			Voice.stop();
+		} else {
+			Voice.start("en-US");
+			setIsReal(false);
+		}
+		setIsRecord(!isRecord);
+	};
+
+	useEffect(() => {
+		Voice.onSpeechStart = _onSpeechStart;
+		Voice.onSpeechEnd = _onSpeechEnd;
+		Voice.onSpeechResults = _onSpeechResults;
+		Voice.onSpeechError = _onSpeechError;
+
+		return () => {
+			Voice.destroy().then(Voice.removeAllListeners);
+		};
+	}, []);
 	if (!init) {
+		_onRecordVoice();
+		Voice.destroy().then(Voice.removeAllListeners);
+		setIsRecord(false);
+		Voice.stop();
 		test = [];
 		db.ref("/").on("value", (data) => {
 			for (var fact in data.val()) {
@@ -81,63 +140,6 @@ const AudioScan = () => {
 		});
 		setInit(true);
 	}
-
-	const voiceLabel = text ? text : isRecord ? "Say something..." : "";
-
-	const _onSpeechStart = () => {
-		//console.log("onSpeechStart");
-		setText("");
-	};
-	const _onSpeechEnd = () => {
-		//console.log("onSpeechEnd");
-	};
-	const _onSpeechResults = (event) => {
-		//console.log("onSpeechResults");
-		setText(event.value[0]);
-	};
-	const _onSpeechError = (event) => {
-		//console.log("_onSpeechError");
-		//console.log(event.error);
-	};
-
-	const _classify = () => {
-		var word = text.toLocaleLowerCase();
-		var facts = [];
-		db.ref(word + "/").on("value", (data) => {
-			var useData = data.val();
-			for (var fact in useData) {
-				facts.push(useData[fact]);
-			}
-		});
-		setFacts(facts);
-		setIsReal(true);
-		Voice.destroy().then(Voice.removeAllListeners);
-	};
-
-	const _onRecordVoice = () => {
-		setFacts([]);
-		if (isRecord) {
-			Voice.stop();
-		} else {
-			Voice.start("en-US");
-			setIsReal(false);
-		}
-		setIsRecord(!isRecord);
-		//setIsReal(false);
-	};
-
-	useEffect(() => {
-		//console.log("Here");
-		Voice.onSpeechStart = _onSpeechStart;
-		Voice.onSpeechEnd = _onSpeechEnd;
-		Voice.onSpeechResults = _onSpeechResults;
-		Voice.onSpeechError = _onSpeechError;
-
-		return () => {
-			Voice.destroy().then(Voice.removeAllListeners);
-		};
-	}, []);
-
 	if (!init) {
 		return (
 			<ScrollView style={{ backgroundColor: "#D0F1DD" }}>
@@ -161,7 +163,7 @@ const AudioScan = () => {
 								[
 									{
 										text: "Settings",
-										onPress: () => Linking.openURL("app-settings:"),
+										onPress: () => openSettings(),
 										style: "cancel",
 									},
 									{
@@ -187,19 +189,25 @@ const AudioScan = () => {
 							onPress={_onRecordVoice}
 							style={styles.actionButton}
 						>
-							<Ionicons name={"mic"} size={35} style={{ color: "#F6F6F6" }} />
+							<Ionicons
+								name={isRecord ? "mic-off" : "mic"}
+								size={(Dimensions.get("window").width * 35) / 414}
+								style={{ color: "#F6F6F6" }}
+							/>
 						</TouchableOpacity>
 
 						<TouchableOpacity onPress={_classify} style={styles.actionButton}>
 							<Ionicons
 								name={"search-outline"}
-								size={35}
+								size={(Dimensions.get("window").width * 35) / 414}
 								style={{ color: "#F6F6F6" }}
 							/>
 						</TouchableOpacity>
 					</View>
 					<Text style={styles.object}>{voiceLabel}</Text>
-					<InfoCard object={text} facts={facts} valid={isReal} />
+					<View style={{ marginTop: "30%" }}>
+						<InfoCard object={text} facts={facts} valid={isReal} />
+					</View>
 				</View>
 			</ScrollView>
 		);
@@ -211,12 +219,12 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-		marginTop: 20,
+		marginTop: (Dimensions.get("window").height * 5) / 184,
 	},
 	actionButton: {
 		width: "45%",
-		height: 40,
-		margin: 5,
+		height: (Dimensions.get("window").height * 5) / 92,
+		margin: (Dimensions.get("window").width * 5) / 414,
 		justifyContent: "center",
 		backgroundColor: "#09B44D",
 		borderRadius: 10,
@@ -226,22 +234,22 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		color: "#F6F6F6",
 		fontWeight: "bold",
-		fontSize: 25,
+		fontSize: (Dimensions.get("window").width * 25) / 414,
 	},
 	object: {
 		fontWeight: "bold",
-		fontSize: 25,
+		fontSize: (Dimensions.get("window").width * 25) / 414,
 		color: "#09B44D",
 	},
 	permissionBox: {
 		width: "70%",
 		backgroundColor: "#09B44D",
-		height: 75,
+		height: (Dimensions.get("window").height * 75) / 736,
 		borderRadius: 10,
 	},
 	permissionText: {
 		color: "#F6F6F6",
-		fontSize: 20,
+		fontSize: (Dimensions.get("window").width * 10) / 207,
 		textAlign: "center",
 		fontWeight: "bold",
 	},

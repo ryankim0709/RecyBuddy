@@ -1,22 +1,19 @@
 import React from "react";
 import {
 	View,
-	Text,
 	TextInput,
 	StyleSheet,
 	TouchableOpacity,
 	Keyboard,
 	TouchableWithoutFeedback,
 	KeyboardAvoidingView,
-	Alert,
 	Platform,
 	ActivityIndicator,
 	ScrollView,
+	Dimensions,
 } from "react-native";
-import { Header } from "react-native-elements";
 import db from "../config.js";
 import { Ionicons } from "@expo/vector-icons";
-import * as Speech from "expo-speech";
 import InfoCard from "../infoCard.js";
 
 export default class TextScan extends React.Component {
@@ -51,7 +48,7 @@ export default class TextScan extends React.Component {
 		while (word.charAt(word.length - 1) === " ") {
 			word = word.substring(0, word.length - 1);
 		}
-		this.setState({ object: word });
+
 		db.ref(word + "/").on("value", (data) => {
 			var useData = data.val();
 			for (var fact in useData) {
@@ -68,27 +65,6 @@ export default class TextScan extends React.Component {
 		this.setState({ facts: [] });
 	};
 
-	classifyObject1 = () => {
-		var word = this.state.object.toLocaleLowerCase();
-		while (word.charAt(word.length - 1) === " ") {
-			word = word.substring(0, word.length - 1);
-		}
-		this.setState({ object: word });
-		db.ref(word + "/").on("value", (data) => {
-			var useData = data.val();
-			for (var fact in useData) {
-				this.state.facts.push(useData[fact]);
-			}
-		});
-		this.update1();
-	};
-
-	update1 = async () => {
-		var object = this.state.object;
-		var fact = this.state.facts;
-		this.setState({ cardObject: object, cardFacts: fact });
-		this.setState({ facts: [] });
-	};
 	render() {
 		if (!this.state.initialized) {
 			return (
@@ -114,9 +90,6 @@ export default class TextScan extends React.Component {
 						behavior={Platform.OS === "ios" ? "padding" : "height"}
 						style={{ flex: 1 }}
 					>
-						{/*We Make our header*/}
-
-						{/*We make our text input box*/}
 						<TouchableWithoutFeedback
 							onPress={Keyboard.dismiss}
 							accessible={false}
@@ -126,7 +99,7 @@ export default class TextScan extends React.Component {
 									flexDirection: "row",
 									alignContent: "center",
 									justifyContent: "center",
-									marginTop: 20,
+									marginTop: (Dimensions.get("window").height * 5) / 184,
 								}}
 							>
 								<TextInput
@@ -147,18 +120,18 @@ export default class TextScan extends React.Component {
 								<TouchableOpacity onPress={this.classifyObject}>
 									<Ionicons
 										name={"search"}
-										size={50}
+										size={(Dimensions.get("window").width * 25) / 207}
 										style={{ color: "#09B44D" }}
 									/>
 								</TouchableOpacity>
 							</View>
 						</TouchableWithoutFeedback>
-
-						<InfoCard
-							object={this.state.cardObject}
-							facts={this.state.cardFacts}
-							valid={true}
-						/>
+						<View style={styles.container}>
+							<InfoCard
+								object={this.state.cardObject}
+								facts={this.state.cardFacts}
+							/>
+						</View>
 					</KeyboardAvoidingView>
 				</ScrollView>
 			);
@@ -167,41 +140,37 @@ export default class TextScan extends React.Component {
 }
 
 const styles = StyleSheet.create({
-	//style for the container
 	container: {
 		flex: 1,
-		justifyContent: "center",
-		alignContent: "center",
+		marginTop: (Dimensions.get("window").height * 5) / 768,
 		alignItems: "center",
-		backgroundColor: "#D0F1DD",
+		justifyContent: "center",
+		marginTop: "30%",
 	},
-	//style for the box where we input
 	scanBox: {
 		width: "60%",
-		height: 40,
+		height: (Dimensions.get("window").height * 5) / 92,
 		textAlign: "center",
 		borderColor: "#09B44D",
 		borderRadius: 10,
 		backgroundColor: "#09B44D",
 		borderWidth: 1.5,
 		alignItems: "center",
-		marginLeft: 45,
+		marginLeft: (Dimensions.get("window").width * 5) / 46,
 		color: "#F6F6F6",
-		fontSize: 25,
+		fontSize: (Dimensions.get("window").width * 25) / 414,
 		fontWeight: "bold",
 	},
-	//style for the button we click to search
 	searchButton: {
 		alignSelf: "center",
-		width: "40%",
-		height: 30,
-		marginTop: 30,
-		marginBottom: 30,
+		width: (Dimensions.get("window").width * 2) / 5,
+		height: (Dimensions.get("window").height * 15) / 368,
+		marginTop: (Dimensions.get("window").height * 15) / 368,
+		marginBottom: (Dimensions.get("window").height * 15) / 368,
 	},
-	//style for the searchButton text
 	searchText: {
 		alignSelf: "center",
 		fontWeight: "bold",
-		padding: 7,
+		padding: (Dimensions.get("window").width * 7) / 414,
 	},
 });

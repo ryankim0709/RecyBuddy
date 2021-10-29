@@ -11,12 +11,21 @@ import {
 
 export default function HomeScreen({ navigation }) {
 	return (
-		<ScrollView style={{ backgroundColor: "#D0F1DD" }}>
+		<ScrollView
+			style={{
+				backgroundColor: "#D0F1DD",
+				borderRadius: 10,
+				borderColor: "black",
+				flex: 1,
+			}}
+		>
 			<View style={styles.container}>
 				<View style={styles.navContainer}>
 					<TouchableOpacity
 						style={styles.navButton}
-						onPress={() => navigation.navigate("Scan")}
+						onPress={() => {
+							navigation.navigate("Scan");
+						}}
 					>
 						<Text style={styles.buttonText}>Scan</Text>
 					</TouchableOpacity>
@@ -30,8 +39,8 @@ export default function HomeScreen({ navigation }) {
 					</TouchableOpacity>
 				</View>
 				<Image
-					source={require("../photos/homeLight.png")}
-					style={{ alignSelf: "center", marginTop: "20%" }}
+					source={require("../photos/homeBold.png")}
+					style={styles.imageIcon}
 				/>
 			</View>
 		</ScrollView>
@@ -44,41 +53,40 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		alignSelf: "center",
 		backgroundColor: "#D0F1DD",
-		marginTop: 10,
+		marginTop: (Dimensions.get("window").height * 5) / 368,
 		justifyContent: "center",
 	},
 	gameButton: {
 		width: (Dimensions.get("window").width * 7) / 10,
-		height: (Dimensions.get("window").height * 1) / 10,
+		height: (Dimensions.get("window").width * 1) / 10,
 		backgroundColor: "#b5e48c",
 		justifyContent: "center",
 		borderRadius: 10,
 	},
-	gameText: {
-		textAlign: "center",
-		fontWeight: "bold",
-		alignItems: "center",
-		fontSize: 30,
-	},
 	navButton: {
-		width: "45%",
-		height: 40,
+		width: (Dimensions.get("window").width * 9) / 20,
+		height: (Dimensions.get("window").height * 5) / 92,
 		backgroundColor: "#09B44D",
 		borderRadius: 10,
-		marginLeft: 5,
-		marginRight: 5,
+		marginLeft: (Dimensions.get("window").width * 5) / 414,
+		marginRight: (Dimensions.get("window").width * 5) / 414,
 	},
 	navContainer: {
-		marginTop: 10,
+		marginTop: (Dimensions.get("window").height * 5) / 368,
 		flexDirection: "row",
 		alignSelf: "center",
 		textAlign: "center",
 	},
 	buttonText: {
 		fontWeight: "bold",
-		fontSize: 25,
+		fontSize: (Dimensions.get("window").height * 25) / 736,
 		color: "#F6F6F6",
 		textAlign: "center",
-		marginTop: 3,
+		marginTop: (Dimensions.get("window").height * 3) / 736,
+	},
+	imageIcon: {
+		alignSelf: "center",
+		marginTop: "20%",
+		width: "100%",
 	},
 });

@@ -4,7 +4,7 @@ import {
 	Text,
 	StyleSheet,
 	TouchableOpacity,
-	ScrollView,
+	Dimensions,
 } from "react-native";
 import WheelPicker from "react-native-wheely";
 
@@ -22,7 +22,6 @@ export default function gameOptions({ navigation, route }) {
 					itemStyle={{ backgroundColor: "#09B44D" }}
 					itemTextStyle={{ color: "#F6F6F6" }}
 					onChange={(num) => setSelected(num)}
-					containerStyle={{}}
 				/>
 			</View>
 
@@ -54,16 +53,16 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		alignItems: "center",
 		justifyContent: "center",
-		height: 40,
+		height: (Dimensions.get("window").height * 5) / 92,
 	},
 	navigateText: {
-		fontSize: 25,
+		fontSize: (Dimensions.get("window").width * 25) / 414,
 		fontWeight: "bold",
 		textAlign: "center",
 		color: "#F6F6F6",
 	},
 	text: {
-		fontSize: 25,
+		fontSize: (Dimensions.get("window").width * 25) / 414,
 		fontWeight: "bold",
 		textAlign: "center",
 		color: "#262626",
