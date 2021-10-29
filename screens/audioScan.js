@@ -10,7 +10,12 @@ import {
 	Dimensions,
 	StyleSheet,
 } from "react-native";
-import { check, PERMISSIONS, RESULTS } from "react-native-permissions";
+import {
+	check,
+	openSettings,
+	PERMISSIONS,
+	RESULTS,
+} from "react-native-permissions";
 import Voice from "react-native-voice";
 import InfoCard from "../infoCard";
 import db from "../config";
@@ -66,21 +71,6 @@ const AudioScan = () => {
 		}
 	});
 
-	if (!init) {
-		test = [];
-		db.ref("/").on("value", (data) => {
-			for (var fact in data.val()) {
-				db.ref(fact + "/").on("value", (data2) => {
-					var useData = data2.val();
-					for (var fact2 in useData) {
-						test = useData[fact2];
-					}
-				});
-			}
-		});
-		setInit(true);
-	}
-
 	const voiceLabel = text ? text : isRecord ? "Say something..." : "";
 
 	const _onSpeechStart = () => {
@@ -111,7 +101,6 @@ const AudioScan = () => {
 	};
 
 	const _onRecordVoice = () => {
-		console.log(isRecord);
 		setIsReal(false);
 		setFacts([]);
 		if (isRecord) {
@@ -133,7 +122,24 @@ const AudioScan = () => {
 			Voice.destroy().then(Voice.removeAllListeners);
 		};
 	}, []);
-
+	if (!init) {
+		_onRecordVoice();
+		Voice.destroy().then(Voice.removeAllListeners);
+		setIsRecord(false);
+		Voice.stop();
+		test = [];
+		db.ref("/").on("value", (data) => {
+			for (var fact in data.val()) {
+				db.ref(fact + "/").on("value", (data2) => {
+					var useData = data2.val();
+					for (var fact2 in useData) {
+						test = useData[fact2];
+					}
+				});
+			}
+		});
+		setInit(true);
+	}
 	if (!init) {
 		return (
 			<ScrollView style={{ backgroundColor: "#D0F1DD" }}>
@@ -157,7 +163,7 @@ const AudioScan = () => {
 								[
 									{
 										text: "Settings",
-										onPress: () => Linking.openURL("app-settings:"),
+										onPress: () => openSettings(),
 										style: "cancel",
 									},
 									{

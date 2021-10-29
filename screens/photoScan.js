@@ -78,6 +78,7 @@ export default function PhotoScan() {
 
 	async function cameraReady() {
 		let permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
 		permissionResult = permissionResult.granted === true;
 		setPermissions(permissionResult);
 		return permissionResult;
