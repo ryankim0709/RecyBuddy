@@ -10,12 +10,7 @@ import {
 	Dimensions,
 	StyleSheet,
 } from "react-native";
-import {
-	check,
-	openSettings,
-	PERMISSIONS,
-	RESULTS,
-} from "react-native-permissions";
+import { check, PERMISSIONS, RESULTS } from "react-native-permissions";
 import Voice from "react-native-voice";
 import InfoCard from "../infoCard";
 import db from "../config";
@@ -27,9 +22,107 @@ const AudioScan = () => {
 	const [facts, setFacts] = React.useState([]);
 	const [isReal, setIsReal] = React.useState(false);
 	const [init, setInit] = React.useState(false);
+	const [isFirst, setIsFirst] = React.useState(true);
 
-	const [micPerms, setmicPerms] = React.useState(false);
-	const [speechRec, setSpeechRec] = React.useState(false);
+	const [micPerms, setmicPerms] = React.useState(null);
+	const [speechRec, setSpeechRec] = React.useState(null);
+
+	const voiceLabel = text ? text : isRecord ? "Say something..." : "";
+
+	const _onSpeechStart = () => {
+		setText("");
+	};
+	const _onSpeechEnd = () => {};
+	const _onSpeechResults = (event) => {
+		setText(event.value[0]);
+	};
+	const _onSpeechError = (event) => {};
+
+	const _classify = () => {
+		var word = text.toLocaleLowerCase();
+		var facts = [];
+		db.ref(word + "/").on("value", (data) => {
+			var useData = data.val();
+			for (var fact in useData) {
+				facts.push(useData[fact]);
+			}
+		});
+		setFacts(facts);
+		setIsReal(true);
+
+		if (isRecord) {
+			Voice.stop();
+			setIsRecord(false);
+		}
+	};
+
+	const _onRecordVoice = () => {
+		if (
+			(micPerms === false || speechRec === false) &&
+			!isRecord &&
+			isFirst === false
+		) {
+			setIsFirst(false);
+			console.log(micPerms + " " + speechRec + " " + isFirst);
+			Alert.alert(
+				"Permission Required",
+				"Please enable Microphone and Speech-Recognition permissions",
+				[
+					{
+						text: "Settings",
+						onPress: () => Linking.openSettings(),
+						style: "cancel",
+					},
+					{ text: "Ok" },
+				]
+			);
+		} else {
+			if (isFirst) {
+				setIsFirst(false);
+			}
+			try {
+				setIsReal(false);
+				setFacts([]);
+				if (isRecord) {
+					Voice.stop();
+				} else {
+					Voice.start("en-US");
+					setIsReal(false);
+				}
+				setIsRecord(!isRecord);
+			} catch (error) {
+				if (!micPerms || !speechRec) {
+					useEffect();
+				}
+			}
+		}
+	};
+
+	useEffect(() => {
+		Voice.onSpeechStart = _onSpeechStart;
+		Voice.onSpeechEnd = _onSpeechEnd;
+		Voice.onSpeechResults = _onSpeechResults;
+		Voice.onSpeechError = _onSpeechError;
+
+		return () => {
+			Voice.destroy().then(Voice.removeAllListeners);
+		};
+	}, []);
+	if (!init) {
+		test = [];
+
+		db.ref("/").on("value", (data) => {
+			for (var fact in data.val()) {
+				db.ref(fact + "/").on("value", (data2) => {
+					var useData = data2.val();
+					for (var fact2 in useData) {
+						test = useData[fact2];
+					}
+				});
+			}
+		});
+		setInit(true);
+	}
 
 	check(PERMISSIONS.IOS.MICROPHONE).then((result) => {
 		switch (result) {
@@ -71,75 +164,6 @@ const AudioScan = () => {
 		}
 	});
 
-	const voiceLabel = text ? text : isRecord ? "Say something..." : "";
-
-	const _onSpeechStart = () => {
-		setText("");
-	};
-	const _onSpeechEnd = () => {};
-	const _onSpeechResults = (event) => {
-		setText(event.value[0]);
-	};
-	const _onSpeechError = (event) => {};
-
-	const _classify = () => {
-		var word = text.toLocaleLowerCase();
-		var facts = [];
-		db.ref(word + "/").on("value", (data) => {
-			var useData = data.val();
-			for (var fact in useData) {
-				facts.push(useData[fact]);
-			}
-		});
-		setFacts(facts);
-		setIsReal(true);
-
-		if (isRecord) {
-			Voice.stop();
-			setIsRecord(false);
-		}
-	};
-
-	const _onRecordVoice = () => {
-		setIsReal(false);
-		setFacts([]);
-		if (isRecord) {
-			Voice.stop();
-		} else {
-			Voice.start("en-US");
-			setIsReal(false);
-		}
-		setIsRecord(!isRecord);
-	};
-
-	useEffect(() => {
-		Voice.onSpeechStart = _onSpeechStart;
-		Voice.onSpeechEnd = _onSpeechEnd;
-		Voice.onSpeechResults = _onSpeechResults;
-		Voice.onSpeechError = _onSpeechError;
-
-		return () => {
-			Voice.destroy().then(Voice.removeAllListeners);
-		};
-	}, []);
-	if (!init) {
-		_onRecordVoice();
-		Voice.destroy().then(Voice.removeAllListeners);
-		setIsRecord(false);
-		Voice.stop();
-		test = [];
-		db.ref("/").on("value", (data) => {
-			for (var fact in data.val()) {
-				db.ref(fact + "/").on("value", (data2) => {
-					var useData = data2.val();
-					for (var fact2 in useData) {
-						test = useData[fact2];
-					}
-				});
-			}
-		});
-		setInit(true);
-	}
 	if (!init) {
 		return (
 			<ScrollView style={{ backgroundColor: "#D0F1DD" }}>
@@ -150,36 +174,41 @@ const AudioScan = () => {
 				/>
 			</ScrollView>
 		);
-	} else if (!speechRec || !micPerms) {
-		return (
-			<ScrollView style={{ backgroundColor: "#D0F1DD" }}>
-				<View style={styles.container}>
-					<TouchableOpacity
-						style={styles.permissionBox}
-						onPress={() => {
-							Alert.alert(
-								"Microphone and Speech recognition permission required",
-								"Microphone and Speech recognition permissions is required to record",
-								[
-									{
-										text: "Settings",
-										onPress: () => openSettings(),
-										style: "cancel",
-									},
-									{
-										text: "Cancel",
-									},
-								]
-							);
-						}}
-					>
-						<Text style={styles.permissionText}>
-							Enable microphone and speech recognition permissions
-						</Text>
-					</TouchableOpacity>
-				</View>
-			</ScrollView>
-		);
+		// } else if (
+		// 	micPerms != null &&
+		// 	speechRec != null &&
+		// 	init &&
+		// 	(!speechRec || !micPerms)
+		// ) {
+		// 	return (
+		// 		<ScrollView style={{ backgroundColor: "#D0F1DD" }}>
+		// 			<View style={styles.container}>
+		// 				<TouchableOpacity
+		// 					style={styles.permissionBox}
+		// 					onPress={() => {
+		// 						Alert.alert(
+		// 							"Microphone and Speech recognition permission required",
+		// 							"Microphone and Speech recognition permissions is required to record",
+		// 							[
+		// 								{
+		// 									text: "Settings",
+		// 									onPress: () => openSettings(),
+		// 									style: "cancel",
+		// 								},
+		// 								{
+		// 									text: "Cancel",
+		// 								},
+		// 							]
+		// 						);
+		// 					}}
+		// 				>
+		// 					<Text style={styles.permissionText}>
+		// 						Enable microphone and speech recognition permissions
+		// 					</Text>
+		// 				</TouchableOpacity>
+		// 			</View>
+		// 		</ScrollView>
+		// 	);
 	} else {
 		return (
 			<ScrollView style={{ backgroundColor: "#D0F1DD" }}>
