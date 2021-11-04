@@ -57,13 +57,26 @@ const AudioScan = () => {
 	};
 
 	const _onRecordVoice = () => {
+		denied = false;
+		check(PERMISSIONS.IOS.MICROPHONE).then((result) => {
+			switch (result) {
+				case RESULTS.DENIED:
+					denied = true;
+			}
+		});
+
+		check(PERMISSIONS.IOS.SPEECH_RECOGNITION).then((result) => {
+			switch (result) {
+				case RESULTS.DENIED:
+					denied = true;
+			}
+		});
 		if (
 			(micPerms === false || speechRec === false) &&
 			!isRecord &&
-			isFirst === false
+			denied == false
 		) {
 			setIsFirst(false);
-			console.log(micPerms + " " + speechRec + " " + isFirst);
 			Alert.alert(
 				"Permission Required",
 				"Please enable Microphone and Speech-Recognition permissions",
@@ -175,40 +188,40 @@ const AudioScan = () => {
 			</ScrollView>
 		);
 		// } else if (
-		// 	micPerms != null &&
-		// 	speechRec != null &&
-		// 	init &&
-		// 	(!speechRec || !micPerms)
+		//  micPerms != null &&
+		//  speechRec != null &&
+		//  init &&
+		//  (!speechRec || !micPerms)
 		// ) {
-		// 	return (
-		// 		<ScrollView style={{ backgroundColor: "#D0F1DD" }}>
-		// 			<View style={styles.container}>
-		// 				<TouchableOpacity
-		// 					style={styles.permissionBox}
-		// 					onPress={() => {
-		// 						Alert.alert(
-		// 							"Microphone and Speech recognition permission required",
-		// 							"Microphone and Speech recognition permissions is required to record",
-		// 							[
-		// 								{
-		// 									text: "Settings",
-		// 									onPress: () => openSettings(),
-		// 									style: "cancel",
-		// 								},
-		// 								{
-		// 									text: "Cancel",
-		// 								},
-		// 							]
-		// 						);
-		// 					}}
-		// 				>
-		// 					<Text style={styles.permissionText}>
-		// 						Enable microphone and speech recognition permissions
-		// 					</Text>
-		// 				</TouchableOpacity>
-		// 			</View>
-		// 		</ScrollView>
-		// 	);
+		//  return (
+		//      <ScrollView style={{ backgroundColor: "#D0F1DD" }}>
+		//          <View style={styles.container}>
+		//              <TouchableOpacity
+		//                  style={styles.permissionBox}
+		//                  onPress={() => {
+		//                      Alert.alert(
+		//                          "Microphone and Speech recognition permission required",
+		//                          "Microphone and Speech recognition permissions is required to record",
+		//                          [
+		//                              {
+		//                                  text: "Settings",
+		//                                  onPress: () => openSettings(),
+		//                                  style: "cancel",
+		//                              },
+		//                              {
+		//                                  text: "Cancel",
+		//                              },
+		//                          ]
+		//                      );
+		//                  }}
+		//              >
+		//                  <Text style={styles.permissionText}>
+		//                      Enable microphone and speech recognition permissions
+		//                  </Text>
+		//              </TouchableOpacity>
+		//          </View>
+		//      </ScrollView>
+		//  );
 	} else {
 		return (
 			<ScrollView style={{ backgroundColor: "#D0F1DD" }}>
