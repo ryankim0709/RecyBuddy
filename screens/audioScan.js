@@ -63,7 +63,6 @@ const AudioScan = () => {
 			isFirst === false
 		) {
 			setIsFirst(false);
-			console.log(micPerms + " " + speechRec + " " + isFirst);
 			Alert.alert(
 				"Permission Required",
 				"Please enable Microphone and Speech-Recognition permissions",

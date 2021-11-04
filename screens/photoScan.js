@@ -81,7 +81,10 @@ export default function PhotoScan() {
 
 		permissionResult = permissionResult.granted === true;
 		setPermissions(permissionResult);
-		return permissionResult;
+		if (permissions === false) {
+			return false;
+		}
+		return true;
 	}
 
 	const classify = async () => {
@@ -126,25 +129,36 @@ export default function PhotoScan() {
 	};
 
 	const takePictureAsync = async () => {
-		setIsReal(false);
-		const { cancelled, uri, base64 } = await ImagePicker.launchCameraAsync({
-			base64: true,
-		});
-
-		if (!cancelled) {
-			setImage(uri);
-			setStatus("Loading...");
-			try {
-				const result = await callGoogleVisionAsync(base64);
-				await setStatus(result);
-			} catch (error) {
-				setStatus(`Error: ${error.message}`);
-			}
+		if ((await cameraReady()) === false) {
+			Alert.alert("Permission Required", "Please enable Camera permissions", [
+				{
+					text: "Settings",
+					onPress: () => Linking.openSettings(),
+					style: "cancel",
+				},
+				{ text: "Ok" },
+			]);
 		} else {
-			setImage(null);
-			setStatus(null);
+			setIsReal(false);
+			const { cancelled, uri, base64 } = await ImagePicker.launchCameraAsync({
+				base64: true,
+			});
+
+			if (!cancelled) {
+				setImage(uri);
+				setStatus("Loading...");
+				try {
+					const result = await callGoogleVisionAsync(base64);
+					await setStatus(result);
+				} catch (error) {
+					setStatus(`Error: ${error.message}`);
+				}
+			} else {
+				setImage(null);
+				setStatus(null);
+			}
+			setIsReal(false);
 		}
-		setIsReal(false);
 	};
 	if (!init) {
 		return (
@@ -161,60 +175,37 @@ export default function PhotoScan() {
 	} else {
 		return (
 			<ScrollView style={{ backgroundColor: "#D0F1DD" }}>
-				{permissions === false ? (
-					<View style={styles.container}>
+				<View
+					style={[
+						styles.container,
+						{ marginTop: (Dimensions.get("window").height * 5) / 184 },
+					]}
+				>
+					<View style={{ flexDirection: "row" }}>
 						<TouchableOpacity
-							onPress={askPermissionsAsync}
-							style={styles.permissions}
+							onPress={takePictureAsync}
+							style={styles.actionButton}
 						>
-							<Text
-								style={[
-									styles.permissionText,
-									{ marginTop: (Dimensions.get("window").height * 15) / 736 },
-								]}
-							>
-								Enable camera permissions
-							</Text>
+							<Ionicons
+								name={"camera"}
+								size={(Dimensions.get("window").width * 35) / 414}
+								style={{ color: "#F6F6F6" }}
+							/>
+						</TouchableOpacity>
+						<TouchableOpacity onPress={classify} style={styles.actionButton}>
+							<Ionicons
+								name={"search-outline"}
+								size={(Dimensions.get("window").width * 35) / 414}
+								style={{ color: "#F6F6F6" }}
+							/>
 						</TouchableOpacity>
 					</View>
-				) : (
-					<>
-						<View
-							style={[
-								styles.container,
-								{ marginTop: (Dimensions.get("window").height * 5) / 184 },
-							]}
-						>
-							<View style={{ flexDirection: "row" }}>
-								<TouchableOpacity
-									onPress={takePictureAsync}
-									style={styles.actionButton}
-								>
-									<Ionicons
-										name={"camera"}
-										size={(Dimensions.get("window").width * 35) / 414}
-										style={{ color: "#F6F6F6" }}
-									/>
-								</TouchableOpacity>
-								<TouchableOpacity
-									onPress={classify}
-									style={styles.actionButton}
-								>
-									<Ionicons
-										name={"search-outline"}
-										size={(Dimensions.get("window").width * 35) / 414}
-										style={{ color: "#F6F6F6" }}
-									/>
-								</TouchableOpacity>
-							</View>
-							{image && <Image style={styles.image} source={{ uri: image }} />}
-							{status && <Text style={styles.object}>{status}</Text>}
-							<View style={{ justifyContent: "center", alignSelf: "center" }}>
-								<InfoCard object={status} facts={facts} valid={isReal} />
-							</View>
-						</View>
-					</>
-				)}
+					{image && <Image style={styles.image} source={{ uri: image }} />}
+					{status && <Text style={styles.object}>{status}</Text>}
+					<View style={{ justifyContent: "center", alignSelf: "center" }}>
+						<InfoCard object={status} facts={facts} valid={isReal} />
+					</View>
+				</View>
 			</ScrollView>
 		);
 	}
