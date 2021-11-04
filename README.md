@@ -4,19 +4,28 @@ React Native has been updated numerous times which make finding valid resources 
 so that the next generation of coders could look at my work and hopefully utilize what I learned, and create even more radical apps which will change the world.
 
 # Table of Contents
-1. [Motivation](#Motivation)
-2. [Why RecyBuddy was build](#Why-RecyBuddy-was-built)
-3. [The problem that was solved](#The-problem-solved)
-4. [What was learned](#What-was-learned)
-5. [Why RecyBuddy stands out](#Why-recybuddy-stands-out)
-6. [Future goals](#Future-goals)
-7. [References](#References)
+1. [Motivation](#motivation)
+2. [Why RecyBuddy was build](#why-recybuddy-was-built)
+3. [What was learned](#what-was-learned)
+4. [Why RecyBuddy stands out](#why-recybuddy-stands-out)
+5. [Future goals](#future-goals)
+6. [References](#references)
 
 
 ## Motivation
+One day, after a family hike, my brother asked me where he should dispose his mask. I had to search through a couple articles in order to answer his
+simple question. I realized that **Covid-19** had generated so much more trash because everyone was staying at home. According to the United States
+Environmental protection agency, the average generated about **4.5 pounds** waste each day and the **recycling rates, including composting was 32%**. 
+Theoretically the world would generate **8,008,000,000 punds of trash *each day***.
 ## Why RecyBuddy was built
-## The problem RecyBuddy solved
+RecyBuddy was built in attempt to assist people around the world to recycle right. Recycling comes with numerous benefits such as saving natural resources,
+lessening amount of trash sent to landfills, and lessining the amount of trash sent to the insinerator. These benefits can reduce global warming Global warming
+is a huge problem which leads to higher temperatures, ocean acidification, more wildfires, water shortages, and weed and pest invasions. RecyBuddy was built
+in attempt to help people **recycle right** which would ultimitely keep our beloved planet healthy.
 ## What was learned
+Through developing RecyBuddy I learned about recycling and perseverence. I learned the importance recycling and expanded my recycling knowledge. Items that are not recyclable with jam and break sorting machines at recycling centers, which would slow down the rate of recycling. Besides these minor problems, **not** recycling right poses a huge challenge, **Climate Change**. Non recyclables, such as food will contaminate other recyclables and make **recyclables unrecyclable**. This increases the amount of trash. Trash ends up in landfills or is incinerated. Creating landfills causes deforestation, which contributes to global warming, and incinerating trash also generates a tremendous amount of carbon dioxide which contributes to global warming. 
+
+Additionally, through developing RecyBuddy, I learned how to persever through problems. The three major problems were getting the camera/audio to work, handling permissions, and making sure three core softwares(Node, React Native, and Yarn/NPM) were all the same version. I had to sit down and study numerous different documentations to get my code to work. Perseverence is a valuable skill because allows people to elevate themselves to the next level and become successful.
 ## Why RecyBuddy stands out
 ## Future goals
 ## References
