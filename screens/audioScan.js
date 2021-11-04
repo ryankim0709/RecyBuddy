@@ -26,6 +26,7 @@ const AudioScan = () => {
 
 	const [micPerms, setmicPerms] = React.useState(null);
 	const [speechRec, setSpeechRec] = React.useState(null);
+	const [denied, setDenied] = React.useState(false);
 
 	const voiceLabel = text ? text : isRecord ? "Say something..." : "";
 
@@ -56,21 +57,31 @@ const AudioScan = () => {
 		}
 	};
 
-	const _onRecordVoice = () => {
-		denied = false;
+	async function checkDenied() {
 		check(PERMISSIONS.IOS.MICROPHONE).then((result) => {
+			console.log("Mic: " + result);
 			switch (result) {
 				case RESULTS.DENIED:
-					denied = true;
+					setDenied(true);
+					return;
 			}
 		});
 
 		check(PERMISSIONS.IOS.SPEECH_RECOGNITION).then((result) => {
+			console.log("Speech Rec: " + result);
 			switch (result) {
 				case RESULTS.DENIED:
-					denied = true;
+					console.log("HERE");
+					setDenied(true);
+					return;
 			}
 		});
+		setDenied(false);
+	}
+	const _onRecordVoice = () => {
+		checkDenied();
+		checkDenied();
+		console.log("Dnenied: " + denied);
 		if (
 			(micPerms === false || speechRec === false) &&
 			!isRecord &&
@@ -112,6 +123,8 @@ const AudioScan = () => {
 	};
 
 	useEffect(() => {
+		checkDenied();
+		// setDenied(null);
 		Voice.onSpeechStart = _onSpeechStart;
 		Voice.onSpeechEnd = _onSpeechEnd;
 		Voice.onSpeechResults = _onSpeechResults;
@@ -187,41 +200,6 @@ const AudioScan = () => {
 				/>
 			</ScrollView>
 		);
-		// } else if (
-		//  micPerms != null &&
-		//  speechRec != null &&
-		//  init &&
-		//  (!speechRec || !micPerms)
-		// ) {
-		//  return (
-		//      <ScrollView style={{ backgroundColor: "#D0F1DD" }}>
-		//          <View style={styles.container}>
-		//              <TouchableOpacity
-		//                  style={styles.permissionBox}
-		//                  onPress={() => {
-		//                      Alert.alert(
-		//                          "Microphone and Speech recognition permission required",
-		//                          "Microphone and Speech recognition permissions is required to record",
-		//                          [
-		//                              {
-		//                                  text: "Settings",
-		//                                  onPress: () => openSettings(),
-		//                                  style: "cancel",
-		//                              },
-		//                              {
-		//                                  text: "Cancel",
-		//                              },
-		//                          ]
-		//                      );
-		//                  }}
-		//              >
-		//                  <Text style={styles.permissionText}>
-		//                      Enable microphone and speech recognition permissions
-		//                  </Text>
-		//              </TouchableOpacity>
-		//          </View>
-		//      </ScrollView>
-		//  );
 	} else {
 		return (
 			<ScrollView style={{ backgroundColor: "#D0F1DD" }}>
