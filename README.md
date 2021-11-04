@@ -1,4 +1,4 @@
-# RecyBuddy is an open-source
+#  RecyBuddy is an open-source <img src="/photos/homeBold.png" width = 35 height = 35>
 While developing RecyBuddy using react-native, there were many challenges such as get getting the **camera** and **audio** functions to work.
 React Native has been updated numerous times which make finding valid resources extremely difficult. I wanted to make the RecyBuddy code to be an **open-source**
 so that the next generation of coders could look at my work and hopefully utilize what I learned, and create even more radical apps which will change the world.
