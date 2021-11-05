@@ -1,3 +1,6 @@
+# Update!
+**RecyBuddy has been sent for review! RecyBuddy will soon be available on the App Store!** :heart_eyes:
+
 #  RecyBuddy is an open-source <img src="/photos/homeBold.png" width = 35 height = 35>
 While developing RecyBuddy using react-native, there were many challenges such as get getting the **camera** and **audio** functions to work.
 React Native has been updated numerous times which make finding valid resources extremely difficult. I wanted to make the RecyBuddy code to be an **open-source**
@@ -37,7 +40,7 @@ was developed in hopes of a world filled with people knowledgeable and enthusias
 ## Future goals
 | Goal | Description | Progress |
 | :--- | :----: | :--- |
-| App Store | Upload RecyBuddy to App Store | <ul><li>- [x] Upload to App Store Connect</li><li>- [ ] Prepare to review</li><li>- [ ] App store is reviewing app</li><li>- [ ] RecyBuddy available on the AppStore</li></ul>
+| App Store | Upload RecyBuddy to App Store | <ul><li>- [x] Upload to App Store Connect</li><li>- [X] Prepare to review</li><li>- [X] App store review ongoing app</li><li>- [ ] RecyBuddy available on the AppStore</li></ul>
 | Permissions | Permissions are acting very funny, so try to handle all possible cases(not allowed originally) | <ul><li>- [ ] Fix camera permissions</li><li>- [ ] Fix audio permissions</li><li>- [ ] Make UI more consistant(redo photoscan file)</li></ul>|
 | Google Maps | For hazardous waste, add a popup Google Map that will show nearby hazardous waste disposal centers | <ul><li>- [ ] Figure out how to use Google Maps API</li><li>- [ ] TouchableOpacity generates Google Maps Modal via location</li><li>- [ ] Configure location permissions</li><li>- [ ] RecyBuddy available on the AppStore</li></ul> |
 | Challenge mode timer | For the challenge, add a timer so that it feels more like a game |<ul><li>- [x] Add timer using setInterval</li><li>- [ ] close interval when user leaves the screen</li></ul>|
