@@ -68,6 +68,9 @@ was developed in hopes of a world filled with people knowledgeable and enthusias
 - [React Native Pan Responder tutorial for creating simple animations/games](https://www.youtube.com/watch?v=dXVgb3igGJ4&list=PLYxzS__5yYQmdfEyKDrlG5E0F0u7_iIUo) <br />
 
 ## Support
+
+For any technical issues, please contact one of the following
+
 | Description | Link |
 | :---: | :---: |
 | Mail |  pristineaiforall@gmail.com |
