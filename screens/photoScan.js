@@ -17,7 +17,7 @@ import db from "../config";
 import InfoCard from "../infoCard";
 import { Ionicons } from "@expo/vector-icons";
 
-const API_KEY = "AIzaSyCI1Ekex-K9RtT5vNoTgYKvVNi8hZJfkzg";
+const API_KEY = ""; //Put your own API key from Google Cloud
 const API_URL = `https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`;
 
 async function callGoogleVisionAsync(image) {
