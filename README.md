@@ -13,7 +13,8 @@ so that the next generation of coders could look at my work and hopefully utiliz
 4. [Why RecyBuddy stands out](#why-recybuddy-stands-out)
 5. [Future goals](#future-goals)
 6. [References](#references)
-7. [Attribution](#attribution)
+7. [Support](#support)
+8. [Attribution](#attribution)
 
 
 ## Motivation
@@ -65,6 +66,11 @@ was developed in hopes of a world filled with people knowledgeable and enthusias
 - [React Native voice detection](https://dev-yakuza.posstree.com/en/react-native/react-native-voice/) <br />
 - [Managing permissions for **IOS** built in React Native](https://rossbulat.medium.com/react-native-managing-app-permissions-for-ios-4204e2286598) <br />
 - [React Native Pan Responder tutorial for creating simple animations/games](https://www.youtube.com/watch?v=dXVgb3igGJ4&list=PLYxzS__5yYQmdfEyKDrlG5E0F0u7_iIUo) <br />
+
+## Support
+| Description | Link |
+| :---: | :---: |
+| Mail |  pristineaiforall@gmail.com |
 
 ## Attribution
 <img src="/photos/homeBold.png" width = 25 height = 25> made by Freepik from www.flaticon.com <br />
