@@ -47,13 +47,14 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Allow RecyBuddy to access your camera to take pictures</string>
+	<string>Allow RecyBuddy to access your camera to take pictures. RecyBuddy will pass your photo through the Google object detection AI in order to 
+	classify your item</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Allow RecyBuddy to access your camera to listen to you</string>
+	<string>Allow RecyBuddy to access your camera to listen to you. RecyBuddy will records what you says and figures out where it should be placed.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Allow RecyBuddy to access your photos</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Allow RecyBuddy to access your camera to comprehend your words</string>
+	<string>Allow RecyBuddy to access your camera to comprehend your words. RecyBuddy will figure out what you said and figures out where it should be placed</string>
 	<key>UILaunchStoryboardName</key>
 	<string>SplashScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
