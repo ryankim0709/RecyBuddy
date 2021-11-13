@@ -1,5 +1,5 @@
 # Update!
-**RecyBuddy has been approved! Search RecyBuddy on the App Store! :heart_eyes:
+**RecyBuddy has been approved! Search RecyBuddy on the App Store!** :heart_eyes:
 
 #  RecyBuddy is an open-source <img src="/photos/homeBold.png" width = 35 height = 35>
 While developing RecyBuddy using react-native, there were many challenges such as get getting the **camera** and **audio** functions to work.
